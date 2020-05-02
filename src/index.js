@@ -9,5 +9,8 @@ const init = function() {
 };
 
 const drawImage = function(image, canvas) {
-  
+  canvas.width = image.width;
+  canvas.height = image.height;
+
+  context.drawImage(image, 0, 0);
 };
