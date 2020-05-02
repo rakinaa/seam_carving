@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("let image = document.getElementById('SourceImage');\n\nlet canvas = document.getElementById('canvas');\nlet ctx = canvas.getContext('2d');\n\nimg.onload = function() {\n  ctx.drawImage(img, 0, 0);\n  img.style.display = 'none';\n};\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("\nconst init = function() {\n  let image = document.getElementById('image');\n  \n  let canvas = document.getElementById('canvas');\n  let ctx = canvas.getContext('2d');\n}\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
