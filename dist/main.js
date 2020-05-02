@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("var img = new Image();\nimg.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
