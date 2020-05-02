@@ -14,3 +14,5 @@ const drawImage = function(image, canvas) {
 
   context.drawImage(image, 0, 0);
 };
+
+window.addEventListener('load', init);
