@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("let img = new Image();\nimg.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';\n\nlet canvas = document.getElementById('canvas');\nlet ctx = canvas.getContext('2d');\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("let canvas = document.getElementById('canvas');\nlet ctx = canvas.getContext('2d');\n\nimg.onload = function() {\n  ctx.drawImage(img, 0, 0);\n  img.style.display = 'none';\n};\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
