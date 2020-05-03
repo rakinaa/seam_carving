@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\nconst init = function() {\n  let image = document.getElementById('image');\n  \n  let canvas = document.getElementById('canvas');\n  let c = canvas.getContext('2d');\n\n  drawImage(image, canvas);\n};\n\nconst drawImage = function(image, canvas) {\n  canvas.width = image.width;\n  canvas.height = image.height;\n\n  context.drawImage(image, 0, 0);\n};\n\n\n\n\nconst carve = function(canvas, c) {\n  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);\n}\n\n// window.addEventListener('load', init);\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  init();\n})\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("\nconst init = function() {\n  let image = document.getElementById('image');\n  \n  let canvas = document.getElementById('canvas');\n  let c = canvas.getContext('2d');\n\n  drawImage(image, canvas);\n};\n\nconst drawImage = function(image, canvas) {\n  canvas.width = image.width;\n  canvas.height = image.height;\n\n  context.drawImage(image, 0, 0);\n};\n\n\n\n\nconst carve = function(canvas, c) {\n  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);\n  let data = imageData.data;\n}\n\n// window.addEventListener('load', init);\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  init();\n})\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

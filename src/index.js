@@ -20,6 +20,7 @@ const drawImage = function(image, canvas) {
 
 const carve = function(canvas, c) {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
+  let data = imageData.data;
 }
 
 // window.addEventListener('load', init);
