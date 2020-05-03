@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\nconst init = function() {\n  let image = document.getElementById('image');\n  \n  let canvas = document.getElementById('canvas');\n  let c = canvas.getContext('2d');\n\n  drawImage(image, canvas);\n  carve(canvas, c);\n};\n\nconst drawImage = function(image, canvas) {\n  canvas.width = image.width;\n  canvas.height = image.height;\n\n  context.drawImage(image, 0, 0);\n};\n\n\n\n\nconst carve = function(canvas, c) {\n  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);\n  let data = imageData.data;\n  for (let i = 0; i < data.length; i++) {\n    data[i] = 255;\n  }\n}\n\n// window.addEventListener('load', init);\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  init();\n})\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("\nconst init = function() {\n  let image = document.getElementById('image');\n  \n  let canvas = document.getElementById('canvas');\n  let c = canvas.getContext('2d');\n\n  drawImage(image, canvas, c);\n  carve(canvas, c);\n};\n\nconst drawImage = function(image, canvas, c) {\n  canvas.width = image.width;\n  canvas.height = image.height;\n\n  c.drawImage(image, 0, 0);\n};\n\n\n\n\nconst carve = function(canvas, c) {\n  console.log(canvas.width);\n  console.log(canvas.height);\n  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);\n  let data = imageData.data;\n  for (let i = 0; i < data.length; i++) {\n    data[i] = 255;\n  }\n  c.putImageData(imageData, 0, 0);\n}\n\n// window.addEventListener('load', init);\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  init();\n})\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
