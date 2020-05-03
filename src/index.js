@@ -15,8 +15,14 @@ const drawImage = function(image, canvas) {
   context.drawImage(image, 0, 0);
 };
 
+
+
+
 const carve = function(canvas, c) {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
 }
 
-window.addEventListener('load', init);
+// window.addEventListener('load', init);
+document.addEventListener("DOMContentLoaded", () => {
+  init();
+})
