@@ -1,9 +1,9 @@
+let image = document.getElementById('image');
+
+let canvas = document.getElementById('canvas');
+let c = canvas.getContext('2d');
 
 const init = function() {
-  let image = document.getElementById('image');
-  
-  let canvas = document.getElementById('canvas');
-  let c = canvas.getContext('2d');
 
   drawImage(image, canvas, c);
   carve(canvas, c);
@@ -12,6 +12,9 @@ const init = function() {
 const drawImage = function(image, canvas, c) {
   canvas.width = image.width;
   canvas.height = image.height;
+  console.log(image);
+  console.log(image.width);
+
 
   c.drawImage(image, 0, 0);
 };
