@@ -6,6 +6,7 @@ const init = function() {
   let c = canvas.getContext('2d');
 
   drawImage(image, canvas);
+  carve(canvas, c);
 };
 
 const drawImage = function(image, canvas) {
@@ -21,6 +22,9 @@ const drawImage = function(image, canvas) {
 const carve = function(canvas, c) {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   let data = imageData.data;
+  for (let i = 0; i < data.length; i++) {
+    data[i] = 255;
+  }
 }
 
 // window.addEventListener('load', init);
