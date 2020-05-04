@@ -2,6 +2,7 @@ let canvas;
 let context;
 
 const init = function() {
+  let image = document.getElementById('source-image');
   drawImage(image, canvas, c);
   carve(canvas, c);
 };
