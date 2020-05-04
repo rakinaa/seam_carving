@@ -3,6 +3,7 @@ let c;
 
 const init = function() {
   let image = document.getElementById('source-image');
+  console.log(image.height);
   canvas = document.getElementById('canvas');
   c = canvas.getContext('2d');
   // let image = new Image();
@@ -15,6 +16,7 @@ const init = function() {
 };
 
 const drawImage = function(image) {
+  console.log(image.height);
   canvas.width = image.width;
   canvas.height = image.height;
   c.drawImage(image, 0, 0);
@@ -34,7 +36,8 @@ const carve = function(canvas, c) {
   c.putImageData(imageData, 0, 0);
 }
 
-window.addEventListener('load', init);
+// window.addEventListener('load', init);
+document.addEventListener("DOMContentLoaded", init)
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
 //   console.log(image.height);
