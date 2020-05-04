@@ -5,17 +5,18 @@ const init = function() {
   let image = document.getElementById('source-image');
   canvas = document.getElementById('Canvas');
   c = canvas.getContext('2d');
-  drawImage(image, canvas, c);
-  carve(canvas, c);
+  // let image = new Image();
+  // image.onload = function () {
+  //   drawImage(image);
+  // }
+  // image.src = 'image.jpg';
+  drawImage(image);
+  // carve(canvas, c);
 };
 
-const drawImage = function(image, canvas, c) {
+const drawImage = function(image) {
   canvas.width = image.width;
   canvas.height = image.height;
-  // console.log(image);
-  // console.log(image.width);
-
-
   c.drawImage(image, 0, 0);
 };
 
