@@ -1,8 +1,10 @@
 let canvas;
-let context;
+let c;
 
 const init = function() {
   let image = document.getElementById('source-image');
+  canvas = document.getElementById('Canvas');
+  c = canvas.getContext('2d');
   drawImage(image, canvas, c);
   carve(canvas, c);
 };
