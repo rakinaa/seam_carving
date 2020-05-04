@@ -3,7 +3,7 @@ let c;
 
 const init = function() {
   let image = document.getElementById('source-image');
-  canvas = document.getElementById('Canvas');
+  canvas = document.getElementById('canvas');
   c = canvas.getContext('2d');
   // let image = new Image();
   // image.onload = function () {
@@ -34,15 +34,15 @@ const carve = function(canvas, c) {
   c.putImageData(imageData, 0, 0);
 }
 
-// window.addEventListener('load', init);
-document.addEventListener("DOMContentLoaded", () => {
-  // let img = document.getElementById('image');
-  // console.log(image.height);
+window.addEventListener('load', init);
+// document.addEventListener("DOMContentLoaded", () => {
+//   let img = document.getElementById('image');
+//   console.log(image.height);
 
-  let canvas = document.getElementById('canvas');
-  let c = canvas.getContext('2d');
+//   let canvas = document.getElementById('canvas');
+//   let c = canvas.getContext('2d');
 
 
-  // drawImage(image, canvas, c);
-  // carve(canvas, c);
-});
+//   drawImage(image, canvas, c);
+//   carve(canvas, c);
+// });
