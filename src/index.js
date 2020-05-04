@@ -1,10 +1,7 @@
-let image = document.getElementById('image');
-
-let canvas = document.getElementById('canvas');
-let c = canvas.getContext('2d');
+let canvas;
+let context;
 
 const init = function() {
-
   drawImage(image, canvas, c);
   carve(canvas, c);
 };
@@ -12,8 +9,8 @@ const init = function() {
 const drawImage = function(image, canvas, c) {
   canvas.width = image.width;
   canvas.height = image.height;
-  console.log(image);
-  console.log(image.width);
+  // console.log(image);
+  // console.log(image.width);
 
 
   c.drawImage(image, 0, 0);
@@ -35,5 +32,13 @@ const carve = function(canvas, c) {
 
 // window.addEventListener('load', init);
 document.addEventListener("DOMContentLoaded", () => {
-  init();
-})
+  // let img = document.getElementById('image');
+  // console.log(image.height);
+
+  let canvas = document.getElementById('canvas');
+  let c = canvas.getContext('2d');
+
+
+  // drawImage(image, canvas, c);
+  // carve(canvas, c);
+});
