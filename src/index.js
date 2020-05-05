@@ -16,7 +16,6 @@ const init = function() {
 };
 
 const drawImage = function(image) {
-  console.log(image.height);
   canvas.width = image.width;
   canvas.height = image.height;
   c.drawImage(image, 0, 0);
