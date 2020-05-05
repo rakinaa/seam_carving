@@ -12,7 +12,7 @@ const init = function() {
   // }
   // image.src = 'image.jpg';
   drawImage(image);
-  carve(canvas, c);
+  carve();
 };
 
 const drawImage = function(image) {
