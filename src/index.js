@@ -36,8 +36,8 @@ const carve = function(canvas, c) {
   c.putImageData(imageData, 0, 0);
 }
 
-// window.addEventListener('load', init);
-document.addEventListener("DOMContentLoaded", init)
+window.addEventListener('load', init);
+// document.addEventListener("DOMContentLoaded", init)
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
 //   console.log(image.height);
