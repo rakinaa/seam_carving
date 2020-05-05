@@ -26,8 +26,6 @@ const drawImage = function(image) {
 
 
 const carve = function(canvas, c) {
-  console.log(canvas.width);
-  console.log(canvas.height);
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   let data = imageData.data;
   for (let i = 0; i < data.length; i++) {
