@@ -28,7 +28,7 @@ const carve = function() {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   let data = imageData.data;
   for (let i = 0; i < data.length; i++) {
-    data[i] = 255;
+    data[i] = 55;
   }
   c.putImageData(imageData, 0, 0);
 }
