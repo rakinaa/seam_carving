@@ -34,7 +34,6 @@ const carve = function() {
 }
 
 window.addEventListener('load', init);
-// document.addEventListener("DOMContentLoaded", init)
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
 //   console.log(image.height);
