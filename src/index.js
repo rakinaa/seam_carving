@@ -3,7 +3,6 @@ let c;
 
 const init = function() {
   let image = document.getElementById('source-image');
-  console.log(image.height);
   canvas = document.getElementById('canvas');
   c = canvas.getContext('2d');
   // let image = new Image();
