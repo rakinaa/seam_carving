@@ -25,9 +25,7 @@ const drawImage = function(image) {
 
 
 const carve = function() {
-  image.data = new Uint8ClampedArray();
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
-  console.log(imageData)
   let data = imageData.data;
   for (let i = 0; i < data.length; i++) {
     data[i] = 55;
