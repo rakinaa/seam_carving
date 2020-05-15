@@ -33,6 +33,15 @@ const carve = function() {
   c.putImageData(imageData, 0, 0);
 }
 
+const getGreyScale = function() {
+  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
+  let data = imageData.data;
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = 55;
+  }
+  c.putImageData(imageData, 0, 0);
+}
+
 window.addEventListener('load', init);
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
