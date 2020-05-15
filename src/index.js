@@ -13,7 +13,7 @@ const init = function() {
   // image.src = 'image.jpg';
   drawImage(image);
   // carve();
-  
+  getGreyScale();
 };
 
 const drawImage = function(image) {
