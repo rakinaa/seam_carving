@@ -37,8 +37,8 @@ const carve = function() {
 const getGreyScale = function() {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   let data = imageData.data;
-  let greyVal = 0.2 * data[i] + 0.72 * data[i+1] + 0.07 * data[i+2] 
   for (let i = 0; i < data.length; i += 4) {
+    let greyVal = 0.2 * data[i] + 0.72 * data[i+1] + 0.07 * data[i+2];
     data[i] = greyVal;
     data[i+1] = greyVal;
     data[i+2] = greyVal;
