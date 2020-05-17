@@ -50,11 +50,20 @@ const getPixelFromXY = function(x, y, imageData) {
   return imageData.data[(x + y * canvas.width) * 4];
 }
 
+const getSurroundingPixels = function(x, y) {
+  let vectors = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+}
+
 const getGradientMagnitude = function() {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   let data = imageData.data;
 
-  
+  for (let x = 0; x < canvas.width; x += 1) {
+    for (let y = 0; y < canvas.height; y += 1) {
+      let currentPixel = getPixelFromXY(x, y, imageData);
+
+    }
+  }
 }
 
 window.addEventListener('load', init);
