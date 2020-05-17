@@ -14,6 +14,7 @@ const init = function() {
   drawImage(image);
   // carve();
   getGreyScale();
+  console.log(getSurroundingPixels(0,0))
 };
 
 const drawImage = function(image) {
@@ -55,8 +56,15 @@ const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
 }
 
 const getSurroundingPixels = function(x, y) {
-  let vectors = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
+  let defaultVal = getPixelFromXY(x, y, imageData);
 
+  return {
+    left: getPixelFromXY(x-1, y, imageData, defaultVal),
+    right: getPixelFromXY(x+1, y, imageData, defaultVal),
+    up: getPixelFromXY(x, y-1, imageData, defaultVal),
+    down: getPixelFromXY(x, y+1, imageData, defaultVal)
+  }
 
 }
 
@@ -64,10 +72,14 @@ const getGradientMagnitude = function() {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   let data = imageData.data;
 
-  for (let x = 0; x < canvas.width; x += 1) {
-    for (let y = 0; y < canvas.height; y += 1) {
-      let currentPixel = getPixelFromXY(x, y, imageData);
+  for (let x = 0; x < canvas.width; x++) {
+    for (let y = 0; y < canvas.height; y++) {
+      let pixels = getSurroundingPixels(x, y);
 
+      let diffx = pixels.left - pixels.right;
+      let diffy = pixels.up - pixels.down;
+      let magnitude = Math.sqrt(diffx*diffx + diffy*diffy);
+      let normalized = magnitude * 255/361;
     }
   }
 }
