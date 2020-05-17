@@ -51,7 +51,10 @@ const getPixelFromXY = function(x, y, imageData) {
 }
 
 const getGradientMagnitude = function() {
+  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
+  let data = imageData.data;
 
+  
 }
 
 window.addEventListener('load', init);
