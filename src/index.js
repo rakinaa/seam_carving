@@ -46,6 +46,10 @@ const getGreyScale = function() {
   c.putImageData(imageData, 0, 0);
 }
 
+const getGradientMagnitude = function() {
+  
+}
+
 window.addEventListener('load', init);
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
