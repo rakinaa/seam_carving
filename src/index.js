@@ -46,8 +46,12 @@ const getGreyScale = function() {
   c.putImageData(imageData, 0, 0);
 }
 
+const getPixelFromXY = function(x, y, imageData) {
+  return imageData.data[(x + y * canvas.width) * 4];
+}
+
 const getGradientMagnitude = function() {
-  
+
 }
 
 window.addEventListener('load', init);
