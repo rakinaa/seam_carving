@@ -14,7 +14,7 @@ const init = function() {
   drawImage(image);
   // carve();
   getGreyScale();
-  console.log(getSurroundingPixels(0,0))
+  console.log(getSurroundingPixels(canvas.width-1, canvas.height-2))
 };
 
 const drawImage = function(image) {
@@ -48,7 +48,7 @@ const getGreyScale = function() {
 }
 
 const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
-  if (x > 0 && x < canvas.width && y > 0 && y < canvas.height) {
+  if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
     return imageData.data[(x + y * canvas.width) * 4];
   } else {
     return defaultVal;
@@ -58,6 +58,7 @@ const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
 const getSurroundingPixels = function(x, y) {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   let defaultVal = getPixelFromXY(x, y, imageData);
+  console.log(defaultVal);
 
   return {
     left: getPixelFromXY(x-1, y, imageData, defaultVal),
