@@ -1,10 +1,12 @@
 let canvas;
 let c;
+let greyImageData;
 
 const init = function() {
   let image = document.getElementById('source-image');
   canvas = document.getElementById('canvas');
   c = canvas.getContext('2d');
+  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   // console.log(image)
   // let image = new Image();
   // image.onload = function () {
