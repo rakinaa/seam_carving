@@ -1,6 +1,8 @@
 let canvas;
 let c;
+let greyCanvas;
 let greyImageData;
+
 
 const init = function() {
   let image = document.getElementById('source-image');
