@@ -34,13 +34,7 @@ const init = function() {
   //   drawImage(image);
   // }
   // image.src = 'image.jpg';
-  drawImage(image);
-  // carve();
-  getGreyScale();
-  console.log(getSurroundingPixels(canvas.width-1, canvas.height-2))
-};
 
-const drawImage = function(image) {
   baseCanvas.width = image.width;
   baseCanvas.height = image.height;
 
@@ -50,6 +44,12 @@ const drawImage = function(image) {
   gradientCanvas.width = image.width;
   gradientCanvas.height = image.height;
 
+  drawImage(image);
+  getGreyScale();
+  console.log(getSurroundingPixels(canvas.width-1, canvas.height-2))
+};
+
+const drawImage = function(image) {
   baseCtx.drawImage(image, 0, 0);
 };
 
