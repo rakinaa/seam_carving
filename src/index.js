@@ -41,9 +41,16 @@ const init = function() {
 };
 
 const drawImage = function(image) {
-  canvas.width = image.width;
-  canvas.height = image.height;
-  c.drawImage(image, 0, 0);
+  baseCanvas.width = image.width;
+  baseCanvas.height = image.height;
+
+  greyCanvas.width = image.width;
+  greyCanvas.height = image.height;
+
+  gradientCanvas.width = image.width;
+  gradientCanvas.height = image.height;
+
+  baseCtx.drawImage(image, 0, 0);
 };
 
 
