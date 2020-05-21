@@ -66,15 +66,14 @@ const carve = function() {
 }
 
 const getGreyScale = function() {
-  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
-  let data = imageData.data;
+  let data = baseImgData.data;
   for (let i = 0; i < data.length; i += 4) {
     let greyVal = 0.2 * data[i] + 0.72 * data[i+1] + 0.07 * data[i+2];
     data[i] = greyVal;
     data[i+1] = greyVal;
     data[i+2] = greyVal;
   }
-  c.putImageData(imageData, 0, 0);
+  greyCtx.putImageData(baseImgData, 0, 0);
 }
 
 const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
@@ -86,15 +85,13 @@ const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
 }
 
 const getSurroundingPixels = function(x, y) {
-  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
-  let defaultVal = getPixelFromXY(x, y, imageData);
-  console.log(defaultVal);
+  let defaultVal = getPixelFromXY(x, y, greyImgData);
 
   return {
-    left: getPixelFromXY(x-1, y, imageData, defaultVal),
-    right: getPixelFromXY(x+1, y, imageData, defaultVal),
-    up: getPixelFromXY(x, y-1, imageData, defaultVal),
-    down: getPixelFromXY(x, y+1, imageData, defaultVal)
+    left: getPixelFromXY(x-1, y, greyImgData, defaultVal),
+    right: getPixelFromXY(x+1, y, greyImgData, defaultVal),
+    up: getPixelFromXY(x, y-1, greyImgData, defaultVal),
+    down: getPixelFromXY(x, y+1, greyImgData, defaultVal)
   }
 
 }
