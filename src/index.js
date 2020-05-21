@@ -97,8 +97,7 @@ const getSurroundingPixels = function(x, y) {
 }
 
 const getGradientMagnitude = function() {
-  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
-  let data = imageData.data;
+  let data = greyImgData.data;
 
   for (let x = 0; x < canvas.width; x++) {
     for (let y = 0; y < canvas.height; y++) {
