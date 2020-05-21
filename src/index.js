@@ -1,6 +1,15 @@
-let canvas;
-let c;
+let baseCanvas;
+let baseCtx;
+let baseImgData;
+
 let greyCanvas;
+let greyCtx;
+let greyImgData;
+
+let gradientCanvas;
+let gradientCtx;
+let gradientImgData;
+
 let greyImageData;
 
 
