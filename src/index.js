@@ -10,14 +10,24 @@ let gradientCanvas;
 let gradientCtx;
 let gradientImgData;
 
-let greyImageData;
-
-
 const init = function() {
   let image = document.getElementById('source-image');
-  canvas = document.getElementById('canvas');
-  c = canvas.getContext('2d');
-  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
+
+  baseCanvas = document.getElementById('base-canvas');
+  baseCtx = baseCanvas.getContext('2d');
+  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+
+  greyCanvas = document.getElementById('grey-canvas');
+  greyCtx = greyCanvas.getContext('2d');
+  greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
+
+  gradientCanvas = document.getElementById('gradient-canvas');
+  gradientCtx = gradientCanvas.getContext('2d');
+  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
+
+  // canvas = document.getElementById('canvas');
+  // c = canvas.getContext('2d');
+  // let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
   // console.log(image)
   // let image = new Image();
   // image.onload = function () {
