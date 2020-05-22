@@ -73,7 +73,7 @@ const getGreyScale = function() {
     greyData[i] = greyVal;
     greyData[i+1] = greyVal;
     greyData[i+2] = greyVal;
-    greyData[i+3] = 255;
+    greyData[i+3] = baseData[i+3];
   }
   greyCtx.putImageData(greyImgData, 0, 0);
 }
@@ -93,7 +93,7 @@ const setPixelFromXY = function(x, y, data, val) {
     data[i] = val;
     data[i+1] = val;
     data[i+2] = val;
-    data[i+3] = 255;
+    data[i+3] = greyImgData.data[i+3];
     return true;
   } else {
     return false;
