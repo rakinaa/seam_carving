@@ -31,11 +31,11 @@ const init = function() {
   drawImage(image);
 
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
-  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
   
   getGreyScale();
   console.log(greyCanvas.width-1);
   console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
+  getGradientMagnitude();
 
   // canvas = document.getElementById('canvas');
   // c = canvas.getContext('2d');
@@ -65,19 +65,21 @@ const carve = function() {
 }
 
 const getGreyScale = function() {
-  let data = baseImgData.data;
-  for (let i = 0; i < data.length; i += 4) {
-    let greyVal = 0.2 * data[i] + 0.72 * data[i+1] + 0.07 * data[i+2];
-    data[i] = greyVal;
-    data[i+1] = greyVal;
-    data[i+2] = greyVal;
-  }
-  greyCtx.putImageData(baseImgData, 0, 0);
   greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
+  let baseData = baseImgData.data;
+  let greyData = greyImgData.data;
+  for (let i = 0; i < baseData.length; i += 4) {
+    let greyVal = 0.2 * baseData[i] + 0.72 * baseData[i+1] + 0.07 * baseData[i+2];
+    greyData[i] = greyVal;
+    greyData[i+1] = greyVal;
+    greyData[i+2] = greyVal;
+    greyData[i+3] = 255;
+  }
+  greyCtx.putImageData(greyImgData, 0, 0);
 }
 
 const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
-  console.log(imageData.data[2]);
+  // console.log(imageData.data[2]);
   if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
     return imageData.data[(x + y * greyCanvas.width) * 4];
   } else {
@@ -85,11 +87,16 @@ const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
   }
 }
 
-const setPixelFromXY = function(x, y, imageData) {
+const setPixelFromXY = function(x, y, data, val) {
   if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
-    return imageData.data[(x + y * greyCanvas.width) * 4];
+    const i = (x + y * greyCanvas.width) * 4;
+    data[i] = val;
+    data[i+1] = val;
+    data[i+2] = val;
+    data[i+3] = 255;
+    return true;
   } else {
-    return defaultVal;
+    return false;
   }
 }
 
@@ -107,18 +114,23 @@ const getSurroundingPixels = function(x, y) {
 
 
 const getGradientMagnitude = function() {
-  let data = greyImgData.data;
+  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
+  let gradData = gradientImgData.data;
 
   for (let x = 0; x < greyCanvas.width; x++) {
     for (let y = 0; y < greyCanvas.height; y++) {
       let pixels = getSurroundingPixels(x, y);
-
+      
       let diffx = pixels.left - pixels.right;
       let diffy = pixels.up - pixels.down;
       let magnitude = Math.sqrt(diffx*diffx + diffy*diffy);
-      let normalized = magnitude * 255/361;
+      let normalized = Math.floor(magnitude * 255/361);
+      setPixelFromXY(x, y, gradData, normalized);
     }
   }
+  console.log(getPixelFromXY(0,10,greyImgData))
+  console.log(getPixelFromXY(0,10,gradientImgData))
+  gradientCtx.putImageData(gradientImgData, 0, 0);
 }
 
 window.addEventListener('load', init);
