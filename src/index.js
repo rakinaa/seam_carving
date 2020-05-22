@@ -31,11 +31,11 @@ const init = function() {
   drawImage(image);
 
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
-  greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
   gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
-
+  
   getGreyScale();
-  console.log(getSurroundingPixels(canvas.width-1, canvas.height-2))
+  console.log(greyCanvas.width-1);
+  console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
 
   // canvas = document.getElementById('canvas');
   // c = canvas.getContext('2d');
@@ -73,19 +73,21 @@ const getGreyScale = function() {
     data[i+2] = greyVal;
   }
   greyCtx.putImageData(baseImgData, 0, 0);
+  greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
 }
 
 const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
-  if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
-    return imageData.data[(x + y * canvas.width) * 4];
+  console.log(imageData.data[2]);
+  if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
+    return imageData.data[(x + y * greyCanvas.width) * 4];
   } else {
     return defaultVal;
   }
 }
 
 const setPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
-  if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
-    return imageData.data[(x + y * canvas.width) * 4];
+  if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
+    return imageData.data[(x + y * greyCanvas.width) * 4];
   } else {
     return defaultVal;
   }
@@ -107,8 +109,8 @@ const getSurroundingPixels = function(x, y) {
 const getGradientMagnitude = function() {
   let data = greyImgData.data;
 
-  for (let x = 0; x < canvas.width; x++) {
-    for (let y = 0; y < canvas.height; y++) {
+  for (let x = 0; x < greyCanvas.width; x++) {
+    for (let y = 0; y < greyCanvas.height; y++) {
       let pixels = getSurroundingPixels(x, y);
 
       let diffx = pixels.left - pixels.right;
