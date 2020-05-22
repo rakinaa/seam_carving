@@ -132,9 +132,9 @@ const getGradientMagnitude = function() {
 
 const getMinEnergyFromXY = function(x, y, matrix) {
   const aboveRow = [
-    matrix[x-1][y-1],
-    matrix[x][y-1],
-    matrix[x+1][y-1],
+    matrix[y-1][x-1],
+    matrix[y-1][x],
+    matrix[y-1][x+1],
   ].filter((el) => el !== undefined);
   return aboveRow.length > 0 ? Math.min(...aboveRow) : 0;
 }
@@ -143,11 +143,11 @@ const getEnergyMatrix = function() {
   gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
   let energyMatrix = [...Array(baseCanvas.height)].map(e => Array(baseCanvas.width));
 
-  for (let x = 0; x < baseCanvas.width; x++) {
-    for (let y = 0; y < baseCanvas.height; y++) {
+  for (let y = 0; y < baseCanvas.height; y++) {
+    for (let x = 0; x < baseCanvas.width; x++) {
       const currVal = getPixelFromXY(x, y, gradientImgData);
       const minEnergy = getMinEnergyFromXY(x, y, energyMatrix);
-      energyMatrix[x][y] = currVal + minEnergy;
+      energyMatrix[y][x] = currVal + minEnergy;
     }
   }
 }
