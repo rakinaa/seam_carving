@@ -15,14 +15,21 @@ const init = function() {
 
   baseCanvas = document.getElementById('base-canvas');
   baseCtx = baseCanvas.getContext('2d');
+  baseCanvas.width = image.width;
+  baseCanvas.height = image.height;
+  drawImage(image);
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
 
   greyCanvas = document.getElementById('grey-canvas');
   greyCtx = greyCanvas.getContext('2d');
+  greyCanvas.width = image.width;
+  greyCanvas.height = image.height;
   greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
 
   gradientCanvas = document.getElementById('gradient-canvas');
   gradientCtx = gradientCanvas.getContext('2d');
+  gradientCanvas.width = image.width;
+  gradientCanvas.height = image.height;
   gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
 
   // canvas = document.getElementById('canvas');
@@ -35,16 +42,9 @@ const init = function() {
   // }
   // image.src = 'image.jpg';
 
-  baseCanvas.width = image.width;
-  baseCanvas.height = image.height;
 
-  greyCanvas.width = image.width;
-  greyCanvas.height = image.height;
 
-  gradientCanvas.width = image.width;
-  gradientCanvas.height = image.height;
 
-  drawImage(image);
   getGreyScale();
   console.log(getSurroundingPixels(canvas.width-1, canvas.height-2))
 };
