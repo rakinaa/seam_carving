@@ -31,6 +31,7 @@ const init = function() {
   drawImage(image);
 
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
   
   getGreyScale();
   console.log(greyCanvas.width-1);
@@ -114,7 +115,6 @@ const getSurroundingPixels = function(x, y) {
 
 
 const getGradientMagnitude = function() {
-  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
   let gradData = gradientImgData.data;
 
   for (let x = 0; x < greyCanvas.width; x++) {
@@ -128,8 +128,6 @@ const getGradientMagnitude = function() {
       setPixelFromXY(x, y, gradData, normalized);
     }
   }
-  console.log(getPixelFromXY(0,10,greyImgData))
-  console.log(getPixelFromXY(0,10,gradientImgData))
   gradientCtx.putImageData(gradientImgData, 0, 0);
 }
 
