@@ -36,7 +36,6 @@ const init = function() {
   getGreyScale();
   console.log(greyCanvas.width-1);
   console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
-  console.log(getMinEnergyFromXY());
   getGradientMagnitude();
 
   // canvas = document.getElementById('canvas');
@@ -134,13 +133,16 @@ const getGradientMagnitude = function() {
 const getMinEnergyFromXY = function(x, y, matrix) {
   gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
   const aboveRow = [
-    matrix[x-1, y-1],
-    matrix[x, y-1],
-    matrix[x+1, y-1]
+    matrix[x-1][y-1],
+    matrix[x][y-1],
+    matrix[x+1][y-1],
   ].filter((el) => el !== undefined);
   return aboveRow.length > 0 ? Math.min(...aboveRow) : 0;
 }
 
+const getEnergyMatrix = function() {
+  let energyMatrix = [...Array(baseCanvas.height)].map(e => Array(baseCanvas.width));
+}
 window.addEventListener('load', init);
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
