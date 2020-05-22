@@ -85,7 +85,7 @@ const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
   }
 }
 
-const setPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
+const setPixelFromXY = function(x, y, imageData) {
   if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
     return imageData.data[(x + y * greyCanvas.width) * 4];
   } else {
