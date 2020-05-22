@@ -130,6 +130,10 @@ const getGradientMagnitude = function() {
   gradientCtx.putImageData(gradientImgData, 0, 0);
 }
 
+const getMinEnergyFromXY = function(x, y) {
+
+}
+
 window.addEventListener('load', init);
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
