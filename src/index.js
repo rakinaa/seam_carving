@@ -37,6 +37,7 @@ const init = function() {
   console.log(greyCanvas.width-1);
   console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
   getGradientMagnitude();
+  getEnergyMatrix();
 
   // canvas = document.getElementById('canvas');
   // c = canvas.getContext('2d');
@@ -91,9 +92,9 @@ const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
 const setPixelFromXY = function(x, y, data, val) {
   if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
     const i = (x + y * greyCanvas.width) * 4;
-    data[i] = val;
-    data[i+1] = val;
-    data[i+2] = val;
+    data[i] = val.r === undefined ? val : val.r;
+    data[i+1] = val.g === undefined ? val : val.g;
+    data[i+2] = val.b === undefined ? val : val.b;
     data[i+3] = greyImgData.data[i+3];
     return true;
   } else {
@@ -130,11 +131,19 @@ const getGradientMagnitude = function() {
   gradientCtx.putImageData(gradientImgData, 0, 0);
 }
 
+
+const getCoords = function(x, y, matrix) {
+  if (x >= 0 && x < baseCanvas.width && y >= 0 && y < baseCanvas.height) {
+    return matrix[y][x];
+  } else {
+    return undefined
+  }
+}
 const getMinEnergyFromXY = function(x, y, matrix) {
   const aboveRow = [
-    matrix[y-1][x-1],
-    matrix[y-1][x],
-    matrix[y-1][x+1],
+    getCoords(x-1, y-1, matrix),
+    getCoords(x, y-1, matrix),
+    getCoords(x+1, y-1, matrix)
   ].filter((el) => el !== undefined);
   return aboveRow.length > 0 ? Math.min(...aboveRow) : 0;
 }
@@ -150,6 +159,48 @@ const getEnergyMatrix = function() {
       energyMatrix[y][x] = currVal + minEnergy;
     }
   }
+
+  let seamx = 0
+  let seamy = baseCanvas.height-1;
+  let minVal = energyMatrix[seamy][0];
+
+  for (let i = 1; i < baseCanvas.width; i++) {
+    if (minVal > energyMatrix[seamy][i]) {
+      seamx = i;
+      minVal = energyMatrix[seamy][i];
+    }
+  }
+
+  console.log(minVal)
+  // console.log(energyMatrix[seamy][9])
+  // console.log(energyMatrix[1][0]);
+  // console.log(energyMatrix[1][1]);
+  // console.log(energyMatrix[2][0]);
+  console.log(energyMatrix[0].slice(0,7));
+  console.log(energyMatrix[1].slice(0,7));
+  console.log(energyMatrix[2].slice(0,7));
+  console.log(energyMatrix[seamy].slice(0,7));
+  console.log(getPixelFromXY(0,3,gradientImgData));
+
+  let baseData = baseImgData.data;
+  while (seamy >= 0) {
+    setPixelFromXY(seamx, seamy, baseData, {r: 255, g: 0, b: 0});
+    if (seamy === 0) { break; }
+
+    minVal = energyMatrix[seamy][seamx];
+    let left = energyMatrix[seamy-1][seamx-1]
+    let right = energyMatrix[seamy-1][seamx+1]
+    
+    if (left !== undefined && left < minVal) {
+      seamx = seamx-1;
+      minVal = left;
+    } else if (right !== undefined && right < minVal) {
+      seamx = seamx+1;
+      minVal = right;
+    }
+    seamy--;
+  }
+  baseCtx.putImageData(baseImgData, 0, 0);
 }
 window.addEventListener('load', init);
 // document.addEventListener("DOMContentLoaded", () => {
