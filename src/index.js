@@ -17,20 +17,25 @@ const init = function() {
   baseCtx = baseCanvas.getContext('2d');
   baseCanvas.width = image.width;
   baseCanvas.height = image.height;
-  drawImage(image);
-  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
 
   greyCanvas = document.getElementById('grey-canvas');
   greyCtx = greyCanvas.getContext('2d');
   greyCanvas.width = image.width;
   greyCanvas.height = image.height;
-  greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
 
   gradientCanvas = document.getElementById('gradient-canvas');
   gradientCtx = gradientCanvas.getContext('2d');
   gradientCanvas.width = image.width;
   gradientCanvas.height = image.height;
+
+  drawImage(image);
+
+  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+  greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
   gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
+
+  getGreyScale();
+  console.log(getSurroundingPixels(canvas.width-1, canvas.height-2))
 
   // canvas = document.getElementById('canvas');
   // c = canvas.getContext('2d');
@@ -41,12 +46,6 @@ const init = function() {
   //   drawImage(image);
   // }
   // image.src = 'image.jpg';
-
-
-
-
-  getGreyScale();
-  console.log(getSurroundingPixels(canvas.width-1, canvas.height-2))
 };
 
 const drawImage = function(image) {
