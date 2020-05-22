@@ -71,6 +71,7 @@ const getGreyScale = function() {
   let greyData = greyImgData.data;
   for (let i = 0; i < baseData.length; i += 4) {
     let greyVal = 0.2 * baseData[i] + 0.72 * baseData[i+1] + 0.07 * baseData[i+2];
+    // let greyVal = (baseData[i] + baseData[i+1] + baseData[i+2]) / 3;
     greyData[i] = greyVal;
     greyData[i+1] = greyVal;
     greyData[i+2] = greyVal;
@@ -80,7 +81,6 @@ const getGreyScale = function() {
 }
 
 const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
-  // console.log(imageData.data[2]);
   if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
     return imageData.data[(x + y * greyCanvas.width) * 4];
   } else {
@@ -110,7 +110,6 @@ const getSurroundingPixels = function(x, y) {
     up: getPixelFromXY(x, y-1, greyImgData, defaultVal),
     down: getPixelFromXY(x, y+1, greyImgData, defaultVal)
   }
-
 }
 
 
