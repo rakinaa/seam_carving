@@ -215,7 +215,7 @@ const getSeam = function() {
   return seamSet;
 }
 
-const getSeam = function() {
+const redraw = function(imageData, context) {
 
 }
 
