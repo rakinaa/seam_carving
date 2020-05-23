@@ -193,6 +193,7 @@ const getSeam = function() {
   let baseData = baseImgData.data;
   while (seamy >= 0) {
     setPixelFromXY(seamx, seamy, baseData, {r: 255, g: 0, b: 0});
+    seamSet.add([seamy, seamx].toString())
 
     if (seamy === 0) { break; }
 
@@ -210,6 +211,8 @@ const getSeam = function() {
     seamy--;
   }
   baseCtx.putImageData(baseImgData, 0, 0);
+
+  return seamSet;
 }
 
 window.addEventListener('load', init);
