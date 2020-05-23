@@ -38,6 +38,11 @@ const init = function() {
   console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
   getGradientMagnitude();
   getSeam();
+  // let s = new Set();
+  // s.add([1,2].toString())
+  // console.log([1,2].toString())
+  // console.log(s.has([1,2].toString()));
+  
 
   // canvas = document.getElementById('canvas');
   // c = canvas.getContext('2d');
@@ -53,9 +58,6 @@ const init = function() {
 const drawImage = function(image) {
   baseCtx.drawImage(image, 0, 0);
 };
-
-
-
 
 const carve = function() {
   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
@@ -186,10 +188,12 @@ const getSeam = function() {
   // console.log(energyMatrix[2].slice(0,7));
   // console.log(energyMatrix[seamy].slice(0,7));
   // console.log(getPixelFromXY(0,3,gradientImgData));
+  let seamSet = new Set();
 
   let baseData = baseImgData.data;
   while (seamy >= 0) {
     setPixelFromXY(seamx, seamy, baseData, {r: 255, g: 0, b: 0});
+
     if (seamy === 0) { break; }
 
     minVal = energyMatrix[seamy][seamx];
