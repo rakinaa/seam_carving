@@ -59,14 +59,14 @@ const drawImage = function(image) {
   baseCtx.drawImage(image, 0, 0);
 };
 
-const carve = function() {
-  let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
-  let data = imageData.data;
-  for (let i = 0; i < data.length; i += 4) {
-    data[i] = 55;
-  }
-  c.putImageData(imageData, 0, 0);
-}
+// const carve = function() {
+//   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
+//   let data = imageData.data;
+//   for (let i = 0; i < data.length; i += 4) {
+//     data[i] = 55;
+//   }
+//   c.putImageData(imageData, 0, 0);
+// }
 
 const getGreyScale = function() {
   greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
@@ -215,8 +215,8 @@ const getSeam = function() {
   return seamSet;
 }
 
-const redraw = function(imageData, context) {
-
+const carve = function(imageData, context) {
+  
 }
 
 window.addEventListener('load', init);
