@@ -215,6 +215,10 @@ const getSeam = function() {
   return seamSet;
 }
 
+const getSeam = function() {
+
+}
+
 window.addEventListener('load', init);
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
