@@ -37,7 +37,8 @@ const init = function() {
   console.log(greyCanvas.width-1);
   console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
   getGradientMagnitude();
-  getSeam();
+  carve(baseImgData, baseCtx);
+  // getSeam();
   // let s = new Set();
   // s.add([1,2].toString())
   // console.log([1,2].toString())
@@ -216,7 +217,25 @@ const getSeam = function() {
 }
 
 const carve = function(imageData, context) {
-  
+  const seamSet = getSeam();
+
+  let data = imageData.data;
+  let newData = [];
+  for (let i = 0; i < data.length; i += 4) {
+    let x = (i / 4) % baseCanvas.width;
+    let y = Math.floor((i / 4) / baseCanvas.width);
+    if (!seamSet.has([y,x].toString())) {
+      newData.push(...data.slice(i, i+4));
+    }
+  }
+
+  baseCanvas.width -= 1;
+  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+  let baseData = baseImgData.data;
+  for (let i = 0; i < baseData.length; i += 1) {
+    baseData[i] = newData[i];
+  }
+  baseCtx.putImageData(baseImgData, 0, 0);
 }
 
 window.addEventListener('load', init);
