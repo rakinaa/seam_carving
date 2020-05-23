@@ -37,7 +37,7 @@ const init = function() {
   console.log(greyCanvas.width-1);
   console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
   getGradientMagnitude();
-  getEnergyMatrix();
+  getSeam();
 
   // canvas = document.getElementById('canvas');
   // c = canvas.getContext('2d');
@@ -160,6 +160,11 @@ const getEnergyMatrix = function() {
     }
   }
 
+  return energyMatrix;
+}
+
+const getSeam = function() {
+  let energyMatrix = getEnergyMatrix();
   let seamx = 0
   let seamy = baseCanvas.height-1;
   let minVal = energyMatrix[seamy][0];
@@ -171,16 +176,16 @@ const getEnergyMatrix = function() {
     }
   }
 
-  console.log(minVal)
+  // console.log(minVal)
   // console.log(energyMatrix[seamy][9])
   // console.log(energyMatrix[1][0]);
   // console.log(energyMatrix[1][1]);
   // console.log(energyMatrix[2][0]);
-  console.log(energyMatrix[0].slice(0,7));
-  console.log(energyMatrix[1].slice(0,7));
-  console.log(energyMatrix[2].slice(0,7));
-  console.log(energyMatrix[seamy].slice(0,7));
-  console.log(getPixelFromXY(0,3,gradientImgData));
+  // console.log(energyMatrix[0].slice(0,7));
+  // console.log(energyMatrix[1].slice(0,7));
+  // console.log(energyMatrix[2].slice(0,7));
+  // console.log(energyMatrix[seamy].slice(0,7));
+  // console.log(getPixelFromXY(0,3,gradientImgData));
 
   let baseData = baseImgData.data;
   while (seamy >= 0) {
@@ -202,6 +207,7 @@ const getEnergyMatrix = function() {
   }
   baseCtx.putImageData(baseImgData, 0, 0);
 }
+
 window.addEventListener('load', init);
 // document.addEventListener("DOMContentLoaded", () => {
 //   let img = document.getElementById('image');
