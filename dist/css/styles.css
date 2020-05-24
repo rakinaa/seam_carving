@@ -3,7 +3,7 @@
   padding: 0px;
 }
 
-.top-triangle {
+#top-triangle {
   position: absolute;
   width: 0; 
   height: 0; 
@@ -13,7 +13,7 @@
   border-top: 15px solid black;
 }
 
-.bottom-triangle {
+#bottom-triangle {
   position: absolute;
   width: 0; 
   height: 0; 

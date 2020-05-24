@@ -13,6 +13,9 @@ let gradientCtx;
 let gradientImgData;
 let gradientDataCopy = [];
 
+let topTri;
+let botTri;
+
 const init = function() {
   let image = document.getElementById('source-image');
 
