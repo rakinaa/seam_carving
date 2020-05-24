@@ -37,7 +37,8 @@ const init = function() {
   console.log(greyCanvas.width-1);
   console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
   getGradientMagnitude();
-  carve(baseImgData, baseCtx);
+  // carveAll()
+  // carve(baseImgData, baseCtx, baseCanvas);
   // getSeam();
   // let s = new Set();
   // s.add([1,2].toString())
@@ -179,16 +180,6 @@ const getSeam = function() {
     }
   }
 
-  // console.log(minVal)
-  // console.log(energyMatrix[seamy][9])
-  // console.log(energyMatrix[1][0]);
-  // console.log(energyMatrix[1][1]);
-  // console.log(energyMatrix[2][0]);
-  // console.log(energyMatrix[0].slice(0,7));
-  // console.log(energyMatrix[1].slice(0,7));
-  // console.log(energyMatrix[2].slice(0,7));
-  // console.log(energyMatrix[seamy].slice(0,7));
-  // console.log(getPixelFromXY(0,3,gradientImgData));
   let seamSet = new Set();
 
   let baseData = baseImgData.data;
@@ -216,8 +207,8 @@ const getSeam = function() {
   return seamSet;
 }
 
-const carve = function(imageData, context) {
-  const seamSet = getSeam();
+const carve = function(imageData, context, canvas, seamSet) {
+  // const seamSet = getSeam();
 
   let data = imageData.data;
   let newData = [];
@@ -229,13 +220,20 @@ const carve = function(imageData, context) {
     }
   }
 
-  baseCanvas.width -= 1;
-  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
-  let baseData = baseImgData.data;
-  for (let i = 0; i < baseData.length; i += 1) {
-    baseData[i] = newData[i];
+  canvas.width -= 1;
+  imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  data = imageData.data;
+  for (let i = 0; i < data.length; i += 1) {
+    data[i] = newData[i];
   }
-  baseCtx.putImageData(baseImgData, 0, 0);
+  context.putImageData(imageData, 0, 0);
+}
+
+const carveAll = function() {
+  const seamSet = getSeam();
+  carve(baseImgData, baseCtx, baseCanvas, seamSet);
+  carve(greyImgData, greyCtx, greyCanvas, seamSet);
+  carve(gradientImgData, gradientCtx, gradientCanvas, seamSet);
 }
 
 window.addEventListener('load', init);
