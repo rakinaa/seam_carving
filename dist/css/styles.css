@@ -1,18 +1,23 @@
+.base-container {
+  position: relative;
+}
 
 .top-triangle {
+  position: absolute;
   width: 0; 
   height: 0; 
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
   
-  border-top: 20px solid #f00;
+  border-top: 20px solid black;
 }
 
 .bottom-triangle {
+  position: absolute;
   width: 0; 
   height: 0; 
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
   
   border-bottom: 20px solid black;
 }
