@@ -34,6 +34,14 @@ const init = function() {
   gradientCanvas.width = image.width;
   gradientCanvas.height = image.height;
 
+  topTri = document.getElementById('top-triangle');
+  botTri = document.getElementById('bottom-triangle');
+
+  topTri.style.left = (baseCanvas.width - 9) + "px";
+  topTri.style.top =  "-15px";
+  botTri.style.left = (baseCanvas.width - 9) + "px";
+  botTri.style.top = baseCanvas.height + "px";
+
   drawImage(image);
 
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);

@@ -5,6 +5,8 @@
 
 #top-triangle {
   position: absolute;
+  margin: 0;
+  padding: 0;
   width: 0; 
   height: 0; 
   border-left: 9px solid transparent;
@@ -15,10 +17,17 @@
 
 #bottom-triangle {
   position: absolute;
+  margin: 0;
+  padding: 0;
   width: 0; 
   height: 0; 
   border-left: 9px solid transparent;
   border-right: 9px solid transparent;
   
   border-bottom: 15px solid black;
+}
+
+#base-canvas {
+  padding: 0;
+  margin: 0;
 }
