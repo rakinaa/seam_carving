@@ -1,14 +1,17 @@
 let baseCanvas;
 let baseCtx;
 let baseImgData;
+let baseDataCopy = [];
 
 let greyCanvas;
 let greyCtx;
 let greyImgData;
+let greyDataCopy = [];
 
 let gradientCanvas;
 let gradientCtx;
 let gradientImgData;
+let gradientDataCopy = [];
 
 const init = function() {
   let image = document.getElementById('source-image');
@@ -32,13 +35,24 @@ const init = function() {
 
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
   gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
+
+  copyData(baseImgData.data, baseDataCopy);
   
   getGreyScale();
-  console.log(greyCanvas.width-1);
-  console.log(getSurroundingPixels(greyCanvas.width-1, greyCanvas.height-2))
-  getGradientMagnitude();
-  // carveAll()
+  getGradientMagnitude(gradientImgData.data);
+  copyData(gradientImgData.data, gradientDataCopy);
+  gradientCtx.putImageData(gradientImgData, 0, 0);
+  i = 0;
+  const carveTimer = setInterval(() => {
+    const seamSet = getSeam();
+    setTimeout(() => {
+      carveAll(seamSet);
+    }, 50);
+    i++;
+    if (i > 200) { clearInterval(carveTimer) }
+  }, 100);
   // carve(baseImgData, baseCtx, baseCanvas);
+
   // getSeam();
   // let s = new Set();
   // s.add([1,2].toString())
@@ -70,6 +84,12 @@ const drawImage = function(image) {
 //   c.putImageData(imageData, 0, 0);
 // }
 
+const copyData = function(data, copy) {
+  for (let i = 0; i < data.length; i += 1) {
+    copy.push(data[i])
+  }
+}
+
 const getGreyScale = function() {
   greyImgData = greyCtx.getImageData(0, 0, greyCanvas.width, greyCanvas.height);
   let baseData = baseImgData.data;
@@ -83,23 +103,24 @@ const getGreyScale = function() {
     greyData[i+3] = baseData[i+3];
   }
   greyCtx.putImageData(greyImgData, 0, 0);
+  copyData(greyData, greyDataCopy);
 }
 
-const getPixelFromXY = function(x, y, imageData, defaultVal = undefined) {
-  if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
-    return imageData.data[(x + y * greyCanvas.width) * 4];
+const getPixelFromXY = function(x, y, data, defaultVal = undefined) {
+  if (x >= 0 && x < baseCanvas.width && y >= 0 && y < baseCanvas.height) {
+    return data[(x + y * baseCanvas.width) * 4];
   } else {
     return defaultVal;
   }
 }
 
 const setPixelFromXY = function(x, y, data, val) {
-  if (x >= 0 && x < greyCanvas.width && y >= 0 && y < greyCanvas.height) {
-    const i = (x + y * greyCanvas.width) * 4;
+  if (x >= 0 && x < baseCanvas.width && y >= 0 && y < baseCanvas.height) {
+    const i = (x + y * baseCanvas.width) * 4;
     data[i] = val.r === undefined ? val : val.r;
     data[i+1] = val.g === undefined ? val : val.g;
     data[i+2] = val.b === undefined ? val : val.b;
-    data[i+3] = greyImgData.data[i+3];
+    data[i+3] = baseDataCopy[i+3];
     return true;
   } else {
     return false;
@@ -107,22 +128,22 @@ const setPixelFromXY = function(x, y, data, val) {
 }
 
 const getSurroundingPixels = function(x, y) {
-  let defaultVal = getPixelFromXY(x, y, greyImgData);
+  let defaultVal = getPixelFromXY(x, y, greyDataCopy);
 
   return {
-    left: getPixelFromXY(x-1, y, greyImgData, defaultVal),
-    right: getPixelFromXY(x+1, y, greyImgData, defaultVal),
-    up: getPixelFromXY(x, y-1, greyImgData, defaultVal),
-    down: getPixelFromXY(x, y+1, greyImgData, defaultVal)
+    left: getPixelFromXY(x-1, y, greyDataCopy, defaultVal),
+    right: getPixelFromXY(x+1, y, greyDataCopy, defaultVal),
+    up: getPixelFromXY(x, y-1, greyDataCopy, defaultVal),
+    down: getPixelFromXY(x, y+1, greyDataCopy, defaultVal)
   }
 }
 
 
-const getGradientMagnitude = function() {
-  let gradData = gradientImgData.data;
+const getGradientMagnitude = function(gradData) {
+  // let gradData = gradientImgData.data;
 
-  for (let x = 0; x < greyCanvas.width; x++) {
-    for (let y = 0; y < greyCanvas.height; y++) {
+  for (let x = 0; x < baseCanvas.width; x++) {
+    for (let y = 0; y < baseCanvas.height; y++) {
       let pixels = getSurroundingPixels(x, y);
       
       let diffx = pixels.left - pixels.right;
@@ -132,7 +153,6 @@ const getGradientMagnitude = function() {
       setPixelFromXY(x, y, gradData, normalized);
     }
   }
-  gradientCtx.putImageData(gradientImgData, 0, 0);
 }
 
 
@@ -153,12 +173,12 @@ const getMinEnergyFromXY = function(x, y, matrix) {
 }
 
 const getEnergyMatrix = function() {
-  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
+  // gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
   let energyMatrix = [...Array(baseCanvas.height)].map(e => Array(baseCanvas.width));
 
   for (let y = 0; y < baseCanvas.height; y++) {
     for (let x = 0; x < baseCanvas.width; x++) {
-      const currVal = getPixelFromXY(x, y, gradientImgData);
+      const currVal = getPixelFromXY(x, y, gradientDataCopy);
       const minEnergy = getMinEnergyFromXY(x, y, energyMatrix);
       energyMatrix[y][x] = currVal + minEnergy;
     }
@@ -207,10 +227,9 @@ const getSeam = function() {
   return seamSet;
 }
 
-const carve = function(imageData, context, canvas, seamSet) {
+const carve = function(data, seamSet) {
   // const seamSet = getSeam();
 
-  let data = imageData.data;
   let newData = [];
   for (let i = 0; i < data.length; i += 4) {
     let x = (i / 4) % baseCanvas.width;
@@ -220,20 +239,36 @@ const carve = function(imageData, context, canvas, seamSet) {
     }
   }
 
-  canvas.width -= 1;
-  imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-  data = imageData.data;
-  for (let i = 0; i < data.length; i += 1) {
-    data[i] = newData[i];
-  }
-  context.putImageData(imageData, 0, 0);
+
+  // canvas.width -= 1;
+  // imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  return newData;
+  // for (let i = 0; i < data.length; i += 1) {
+  //   data[i] = newData[i];
+  // }
+  // context.putImageData(imageData, 0, 0);
 }
 
-const carveAll = function() {
-  const seamSet = getSeam();
-  carve(baseImgData, baseCtx, baseCanvas, seamSet);
-  carve(greyImgData, greyCtx, greyCanvas, seamSet);
-  carve(gradientImgData, gradientCtx, gradientCanvas, seamSet);
+const redraw = function() {
+  baseCanvas.width -= 1;
+  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+  baseData = baseImgData.data;
+  // console.log(baseData.length);
+  // console.log(baseDataCopy.length);
+  for (let i = 0; i < baseData.length; i += 1) {
+    baseData[i] = baseDataCopy[i];
+  }
+  baseCtx.putImageData(baseImgData, 0, 0);
+}
+
+const carveAll = function(seamSet) {
+  baseDataCopy = carve(baseDataCopy, seamSet);
+  greyDataCopy = carve(greyDataCopy, seamSet);
+  gradientDataCopy = carve(gradientDataCopy, seamSet);
+  redraw();
+  getGradientMagnitude(gradientDataCopy);
+  // carve(greyImgData, greyCtx, greyCanvas, seamSet);
+  // carve(gradientImgData, gradientCtx, gradientCanvas, seamSet);
 }
 
 window.addEventListener('load', init);
