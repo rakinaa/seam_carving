@@ -8,7 +8,15 @@
 <body>
   <!-- <img id="source-image" src="https://mdn.mozillademos.org/files/5397/rhino.jpg"> -->
   <img id="source-image" src="img/rhino.jpg">
-  <canvas id="base-canvas"></canvas>
+  <div class="base-container">
+    <div class="top-draggable">
+      <div class="top-triangle"></div>
+    </div>
+    <canvas id="base-canvas"></canvas>
+    <div class="bottom-draggable">
+      <div class="bottom-triangle"></div>
+    </div>
+  </div>
   <canvas id="grey-canvas"></canvas>
   <canvas id="gradient-canvas"></canvas>
   <script type="application/javascript" src="./main.js"></script>
