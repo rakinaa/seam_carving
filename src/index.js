@@ -42,15 +42,19 @@ const init = function() {
   getGradientMagnitude(gradientImgData.data);
   copyData(gradientImgData.data, gradientDataCopy);
   gradientCtx.putImageData(gradientImgData, 0, 0);
-  i = 0;
-  const carveTimer = setInterval(() => {
-    const seamSet = getSeam();
-    setTimeout(() => {
-      carveAll(seamSet);
-    }, 50);
-    i++;
-    if (i > 200) { clearInterval(carveTimer) }
-  }, 100);
+  let i = 0
+  const carveTimer = function() {
+    
+  }
+  // i = 0;
+  // const carveTimer = setInterval(() => {
+  //   const seamSet = getSeam();
+  //   setTimeout(() => {
+  //     carveAll(seamSet);
+  //   }, 50);
+  //   i++;
+  //   if (i > 200) { clearInterval(carveTimer) }
+  // }, 100);
   // carve(baseImgData, baseCtx, baseCanvas);
 
   // getSeam();
