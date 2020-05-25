@@ -15,6 +15,8 @@ let gradientDataCopy = [];
 
 let topTri;
 let botTri;
+let maxLeft;
+let maxRight;
 
 const init = function() {
   let image = document.getElementById('source-image');
@@ -41,6 +43,8 @@ const init = function() {
   topTri.style.top =  "-15px";
   botTri.style.left = (baseCanvas.width - 9) + "px";
   botTri.style.top = baseCanvas.height + "px";
+  maxRight = (baseCanvas.width - 9);
+  maxLeft = -9;
   dragElement(topTri);
 
   drawImage(image);
@@ -317,8 +321,11 @@ function dragElement(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    let newX = elmnt.offsetLeft - pos1;
+    if (newX <= maxRight && newX >= maxLeft) {
+      elmnt.style.left = newX + "px";
+    }
   }
 
   function closeDragElement() {
