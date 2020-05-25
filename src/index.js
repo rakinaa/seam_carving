@@ -58,10 +58,23 @@ const init = function() {
   getGradientMagnitude(gradientImgData.data);
   copyData(gradientImgData.data, gradientDataCopy);
   gradientCtx.putImageData(gradientImgData, 0, 0);
+
   let i = 0
-  const carveTimer = function() {
-    
+  const seamTimer = function() {
+    if (i >= 100) return;
+    i++;
+    const seamSet = getSeam();
+    setTimeout(carveTimer(seamSet), 1)
   }
+
+  const carveTimer = function(seamSet) {
+    if (i >= 100) return;
+    return () => {
+      carveAll(seamSet);
+      setTimeout(seamTimer, 1);
+    }
+  }
+  seamTimer();
   // i = 0;
   // const carveTimer = setInterval(() => {
   //   const seamSet = getSeam();
@@ -293,13 +306,7 @@ const carveAll = function(seamSet) {
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
+  elmnt.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
     e = e || window.event;
