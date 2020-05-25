@@ -41,6 +41,7 @@ const init = function() {
   topTri.style.top =  "-15px";
   botTri.style.left = (baseCanvas.width - 9) + "px";
   botTri.style.top = baseCanvas.height + "px";
+  dragElement(topTri);
 
   drawImage(image);
 
