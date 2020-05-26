@@ -17,6 +17,8 @@ let topTri;
 let botTri;
 let maxLeft;
 let maxRight;
+let currVertPos;
+let triOffset = -9;
 
 const init = function() {
   let image = document.getElementById('source-image');
@@ -39,9 +41,10 @@ const init = function() {
   topTri = document.getElementById('top-triangle');
   botTri = document.getElementById('bottom-triangle');
 
-  topTri.style.left = (baseCanvas.width - 9) + "px";
+  currVertPos = baseCanvas.width + triOffset;
+  topTri.style.left = currVertPos + "px";
   topTri.style.top =  "-15px";
-  botTri.style.left = (baseCanvas.width - 9) + "px";
+  botTri.style.left = currVertPos + "px";
   botTri.style.top = baseCanvas.height + "px";
   maxRight = (baseCanvas.width - 9);
   maxLeft = -9;
@@ -59,22 +62,21 @@ const init = function() {
   copyData(gradientImgData.data, gradientDataCopy);
   gradientCtx.putImageData(gradientImgData, 0, 0);
 
-  let i = 0
-  const seamTimer = function() {
-    if (i >= 100) return;
-    i++;
-    const seamSet = getSeam();
-    setTimeout(carveTimer(seamSet), 1)
-  }
+  // let i = 0
+  // const seamTimer = function() {
+  //   if (i >= 250) return;
+  //   i++;
+  //   const seamSet = getSeam();
+  //   setTimeout(carveTimer(seamSet), 1)
+  // }
 
-  const carveTimer = function(seamSet) {
-    if (i >= 100) return;
-    return () => {
-      carveAll(seamSet);
-      setTimeout(seamTimer, 1);
-    }
-  }
-  seamTimer();
+  // const carveTimer = function(seamSet) {
+  //   return () => {
+  //     carveAll(seamSet);
+  //     setTimeout(seamTimer, 1);
+  //   }
+  // }
+  // seamTimer();
   // i = 0;
   // const carveTimer = setInterval(() => {
   //   const seamSet = getSeam();
