@@ -46,8 +46,8 @@ const init = function() {
   topTri.style.top =  "-15px";
   botTri.style.left = currVertPos + "px";
   botTri.style.top = baseCanvas.height + "px";
-  maxRight = (baseCanvas.width - 9);
-  maxLeft = -9;
+  maxRight = (baseCanvas.width + triOffset);
+  maxLeft = triOffset;
   dragElement(topTri);
 
   drawImage(image);
@@ -333,7 +333,8 @@ function dragElement(elmnt) {
     // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     let newX = elmnt.offsetLeft - pos1;
     if (newX <= maxRight && newX >= maxLeft) {
-      elmnt.style.left = newX + "px";
+      topTri.style.left = newX + "px";
+      botTri.style.left = newX + "px";
     }
   }
 
