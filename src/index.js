@@ -19,6 +19,7 @@ let maxLeft;
 let maxRight;
 let currVertPos;
 let triOffset = -9;
+let startCarving = false;
 
 const init = function() {
   let image = document.getElementById('source-image');
@@ -41,13 +42,12 @@ const init = function() {
   topTri = document.getElementById('top-triangle');
   botTri = document.getElementById('bottom-triangle');
 
-  currVertPos = baseCanvas.width + triOffset;
-  topTri.style.left = currVertPos + "px";
-  topTri.style.top =  "-15px";
-  botTri.style.left = currVertPos + "px";
-  botTri.style.top = baseCanvas.height + "px";
   maxRight = (baseCanvas.width + triOffset);
   maxLeft = triOffset;
+  topTri.style.left = maxRight + "px";
+  topTri.style.top =  "-15px";
+  botTri.style.left = maxRight + "px";
+  botTri.style.top = baseCanvas.height + "px";
   dragElement(topTri);
 
   drawImage(image);
@@ -313,6 +313,7 @@ function dragElement(elmnt) {
   function dragMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
+    startCarving = false;
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
@@ -342,6 +343,23 @@ function dragElement(elmnt) {
     // stop moving when mouse button is released:
     document.onmouseup = null;
     document.onmousemove = null;
+    startCarving = true;
+    currVertPos = parseInt(topTri.style.left) - triOffset;
+    seamTimer();
+  }
+}
+
+const seamTimer = function() {
+  if (baseCanvas.width <= currVertPos || !startCarving) return;
+  const seamSet = getSeam();
+  setTimeout(carveTimer(seamSet), 100)
+}
+
+const carveTimer = function(seamSet) {
+  return () => {
+    carveAll(seamSet);
+    maxRight = baseCanvas.width + triOffset;
+    setTimeout(seamTimer, 100);
   }
 }
 window.addEventListener('load', init);
