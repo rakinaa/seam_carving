@@ -299,7 +299,7 @@ const redraw = function() {
 const carveAll = function(seamSet) {
   baseDataCopy = carve(baseDataCopy, seamSet);
   greyDataCopy = carve(greyDataCopy, seamSet);
-  gradientDataCopy = carve(gradientDataCopy, seamSet);
+  // gradientDataCopy = carve(gradientDataCopy, seamSet);
   redraw();
   getGradientMagnitude(gradientDataCopy);
   // carve(greyImgData, greyCtx, greyCanvas, seamSet);
