@@ -5,6 +5,10 @@
   margin-bottom: 20px;
 }
 
+.images-container {
+  display: flex;
+}
+
 #top-triangle {
   position: absolute;
   margin: 0;
