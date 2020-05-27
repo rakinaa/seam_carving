@@ -107,7 +107,18 @@ const init = function() {
 };
 
 const drawImage = function(image) {
-  baseCtx.drawImage(image, 0, 0);
+  // let img = new Image();
+  // img.onload=function(){
+  //   // canvas.width=400;
+  //   // canvas.height=300;
+  //   baseCtx.drawImage(img,0,0,300,300);
+  // }
+  // img.src="img/rhino.jpg";
+  // console.log(image.width)
+  // console.log(image.height)
+  // console.log(image.offsetWidth)
+  // console.log(image.offsetHeight)
+  baseCtx.drawImage(image, 0, 0, image.width, image.height);
 };
 
 // const carve = function() {
