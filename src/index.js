@@ -288,8 +288,6 @@ const redraw = function() {
   baseCanvas.width -= 1;
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
   baseData = baseImgData.data;
-  // console.log(baseData.length);
-  // console.log(baseDataCopy.length);
   for (let i = 0; i < baseData.length; i += 1) {
     baseData[i] = baseDataCopy[i];
   }
@@ -302,8 +300,6 @@ const carveAll = function(seamSet) {
   // gradientDataCopy = carve(gradientDataCopy, seamSet);
   redraw();
   getGradientMagnitude(gradientDataCopy);
-  // carve(greyImgData, greyCtx, greyCanvas, seamSet);
-  // carve(gradientImgData, gradientCtx, gradientCanvas, seamSet);
 }
 
 function dragElement(elmnt) {
@@ -314,23 +310,19 @@ function dragElement(elmnt) {
     e = e || window.event;
     e.preventDefault();
     startCarving = false;
-    // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
     document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
   }
 
   function elementDrag(e) {
     e = e || window.event;
     e.preventDefault();
-    // calculate the new cursor position:
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // set the element's new position:
     // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     let newX = elmnt.offsetLeft - pos1;
     if (newX <= maxRight && newX >= maxLeft) {
@@ -340,7 +332,6 @@ function dragElement(elmnt) {
   }
 
   function closeDragElement() {
-    // stop moving when mouse button is released:
     document.onmouseup = null;
     document.onmousemove = null;
     startCarving = true;
@@ -362,14 +353,5 @@ const carveTimer = function(seamSet) {
     setTimeout(seamTimer, 100);
   }
 }
+
 window.addEventListener('load', init);
-// document.addEventListener("DOMContentLoaded", () => {
-//   let img = document.getElementById('image');
-
-//   let canvas = document.getElementById('canvas');
-//   let c = canvas.getContext('2d');
-
-
-//   drawImage(image, canvas, c);
-//   carve(canvas, c);
-// });
