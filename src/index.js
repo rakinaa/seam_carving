@@ -1,3 +1,5 @@
+let image;
+
 let baseCanvas;
 let baseCtx;
 let baseImgData;
@@ -20,14 +22,27 @@ let maxRight;
 let currVertPos;
 let triOffset = -9;
 let startCarving = false;
-sample1.addEventListener('click', () => {
-  console.log("hi")
-  image.src = "img/Broadway_tower_edit.jpg"
-})
 
 const init = function() {
-  let image = document.getElementById('source-image');
+  image = document.getElementById('source-image');
   let sample1 = document.getElementById('sample1');
+  sample1.addEventListener('click', () => {
+    console.log("hi")
+    image.src = "img/Broadway_tower_edit.jpg"
+    initializeCarve();
+  })
+
+  topTri = document.getElementById('top-triangle');
+  botTri = document.getElementById('bottom-triangle');
+
+  dragElement(topTri);
+  initializeCarve();
+}
+
+const initializeCarve = function() {
+  baseDataCopy = [];
+  greyDataCopy = [];
+  gradientDataCopy = [];
 
   baseCanvas = document.getElementById('base-canvas');
   baseCtx = baseCanvas.getContext('2d');
@@ -44,8 +59,10 @@ const init = function() {
   gradientCanvas.width = image.width;
   gradientCanvas.height = image.height;
 
-  topTri = document.getElementById('top-triangle');
-  botTri = document.getElementById('bottom-triangle');
+  drawImage(image);
+
+  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
 
   maxRight = (baseCanvas.width + triOffset);
   maxLeft = triOffset;
@@ -53,76 +70,16 @@ const init = function() {
   topTri.style.top =  "-15px";
   botTri.style.left = maxRight + "px";
   botTri.style.top = baseCanvas.height + "px";
-  dragElement(topTri);
-
-  drawImage(image);
-
-  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
-  gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
 
   copyData(baseImgData.data, baseDataCopy);
   
   getGreyScale();
   getGradientMagnitude(gradientImgData.data);
-  copyData(gradientImgData.data, gradientDataCopy);
   gradientCtx.putImageData(gradientImgData, 0, 0);
-
-  // let i = 0
-  // const seamTimer = function() {
-  //   if (i >= 250) return;
-  //   i++;
-  //   const seamSet = getSeam();
-  //   setTimeout(carveTimer(seamSet), 1)
-  // }
-
-  // const carveTimer = function(seamSet) {
-  //   return () => {
-  //     carveAll(seamSet);
-  //     setTimeout(seamTimer, 1);
-  //   }
-  // }
-  // seamTimer();
-  // i = 0;
-  // const carveTimer = setInterval(() => {
-  //   const seamSet = getSeam();
-  //   setTimeout(() => {
-  //     carveAll(seamSet);
-  //   }, 50);
-  //   i++;
-  //   if (i > 200) { clearInterval(carveTimer) }
-  // }, 100);
-  // carve(baseImgData, baseCtx, baseCanvas);
-
-  // getSeam();
-  // let s = new Set();
-  // s.add([1,2].toString())
-  // console.log([1,2].toString())
-  // console.log(s.has([1,2].toString()));
-  
-
-  // canvas = document.getElementById('canvas');
-  // c = canvas.getContext('2d');
-  // let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
-  // console.log(image)
-  // let image = new Image();
-  // image.onload = function () {
-  //   drawImage(image);
-  // }
-  // image.src = 'image.jpg';
+  copyData(gradientImgData.data, gradientDataCopy);
 };
 
 const drawImage = function(image) {
-  // let img = new Image();
-  // img.onload=function(){
-  //   // canvas.width=400;
-  //   // canvas.height=300;
-  //   baseCtx.drawImage(img,0,0,300,300);
-  // }
-  // img.src="img/rhino.jpg";
-  // console.log(image.width)
-  // console.log(image.height)
-  // console.log(image.offsetWidth)
-  // console.log(image.offsetHeight)
   baseCtx.drawImage(image, 0, 0, image.width, image.height);
 };
 
@@ -314,6 +271,7 @@ const carveAll = function(seamSet) {
   baseDataCopy = carve(baseDataCopy, seamSet);
   greyDataCopy = carve(greyDataCopy, seamSet);
   // gradientDataCopy = carve(gradientDataCopy, seamSet);
+  gradientDataCopy = new Array(baseDataCopy.length);
   redraw();
   getGradientMagnitude(gradientDataCopy);
 }
@@ -359,6 +317,9 @@ function dragElement(elmnt) {
 const seamTimer = function() {
   if (baseCanvas.width <= currVertPos || !startCarving) return;
   const seamSet = getSeam();
+  console.log(baseDataCopy.length);
+  console.log(greyDataCopy.length);
+  console.log(gradientDataCopy.length);
   setTimeout(carveTimer(seamSet), 100)
 }
 
