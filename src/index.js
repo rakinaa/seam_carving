@@ -26,11 +26,26 @@ let startCarving = false;
 const init = function() {
   image = document.getElementById('source-image');
   let sample1 = document.getElementById('sample1');
+  let sample2 = document.getElementById('sample2');
+  let sample3 = document.getElementById('sample3');
+
   sample1.addEventListener('click', () => {
     console.log("hi")
     image.src = "img/Broadway_tower_edit.jpg"
     initializeCarve();
-  })
+  });
+
+  sample2.addEventListener('click', () => {
+    console.log("hi")
+    image.src = "img/dolphin.png"
+    initializeCarve();
+  });
+
+  sample3.addEventListener('click', () => {
+    console.log("hi")
+    image.src = "img/pietro-de-grandi.jpg"
+    initializeCarve();
+  });
 
   topTri = document.getElementById('top-triangle');
   botTri = document.getElementById('bottom-triangle');
@@ -40,6 +55,7 @@ const init = function() {
 }
 
 const initializeCarve = function() {
+  startCarving = false;
   baseDataCopy = [];
   greyDataCopy = [];
   gradientDataCopy = [];
@@ -317,9 +333,6 @@ function dragElement(elmnt) {
 const seamTimer = function() {
   if (baseCanvas.width <= currVertPos || !startCarving) return;
   const seamSet = getSeam();
-  console.log(baseDataCopy.length);
-  console.log(greyDataCopy.length);
-  console.log(gradientDataCopy.length);
   setTimeout(carveTimer(seamSet), 100)
 }
 
