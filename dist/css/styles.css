@@ -13,6 +13,10 @@
   width: 300px;
 }
 
+.sample-button {
+  width: 300px;
+}
+
 .images-container {
   display: flex;
   flex-direction: column;

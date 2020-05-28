@@ -23,6 +23,10 @@ let startCarving = false;
 
 const init = function() {
   let image = document.getElementById('source-image');
+  let sample1 = document.getElementById('sample1');
+  sample1.addEventListener('click', () => {
+    console.log("hi")
+  })
 
   baseCanvas = document.getElementById('base-canvas');
   baseCtx = baseCanvas.getContext('2d');
