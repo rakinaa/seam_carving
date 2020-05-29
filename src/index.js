@@ -29,28 +29,26 @@ const init = function() {
   let sample2 = document.getElementById('sample2');
   let sample3 = document.getElementById('sample3');
 
-  sample1.addEventListener('click', () => {
-    console.log("hi")
-    image.src = "img/Broadway_tower_edit.jpg"
-    initializeCarve();
-  });
+  const handleClick = function(imgPath) {
+    return function() {
+      image.src = imgPath;
+      sample1.classList.remove("blue-border")
+      sample2.classList.remove("blue-border")
+      sample3.classList.remove("blue-border")
+      this.classList.add("blue-border")
+      initializeCarve();
+    }
+  }
 
-  sample2.addEventListener('click', () => {
-    console.log("hi")
-    image.src = "img/dolphin.png"
-    initializeCarve();
-  });
-
-  sample3.addEventListener('click', () => {
-    console.log("hi")
-    image.src = "img/pietro-de-grandi.jpg"
-    initializeCarve();
-  });
+  sample1.addEventListener('click', handleClick("img/Broadway_tower_edit.jpg"))
+  sample2.addEventListener('click', handleClick("img/dolphin.png"))
+  sample3.addEventListener('click', handleClick("img/pietro-de-grandi.jpg"))
 
   topTri = document.getElementById('top-triangle');
   botTri = document.getElementById('bottom-triangle');
 
   dragElement(topTri);
+  dragElement(botTri);
   initializeCarve();
 }
 
@@ -99,15 +97,6 @@ const drawImage = function(image) {
   baseCtx.drawImage(image, 0, 0, image.width, image.height);
 };
 
-// const carve = function() {
-//   let imageData = c.getImageData(0, 0, canvas.width, canvas.height);
-//   let data = imageData.data;
-//   for (let i = 0; i < data.length; i += 4) {
-//     data[i] = 55;
-//   }
-//   c.putImageData(imageData, 0, 0);
-// }
-
 const copyData = function(data, copy) {
   for (let i = 0; i < data.length; i += 1) {
     copy.push(data[i])
@@ -120,7 +109,6 @@ const getGreyScale = function() {
   let greyData = greyImgData.data;
   for (let i = 0; i < baseData.length; i += 4) {
     let greyVal = 0.2 * baseData[i] + 0.72 * baseData[i+1] + 0.07 * baseData[i+2];
-    // let greyVal = (baseData[i] + baseData[i+1] + baseData[i+2]) / 3;
     greyData[i] = greyVal;
     greyData[i+1] = greyVal;
     greyData[i+2] = greyVal;
@@ -162,10 +150,7 @@ const getSurroundingPixels = function(x, y) {
   }
 }
 
-
 const getGradientMagnitude = function(gradData) {
-  // let gradData = gradientImgData.data;
-
   for (let x = 0; x < baseCanvas.width; x++) {
     for (let y = 0; y < baseCanvas.height; y++) {
       let pixels = getSurroundingPixels(x, y);
@@ -178,7 +163,6 @@ const getGradientMagnitude = function(gradData) {
     }
   }
 }
-
 
 const getCoords = function(x, y, matrix) {
   if (x >= 0 && x < baseCanvas.width && y >= 0 && y < baseCanvas.height) {
@@ -197,7 +181,6 @@ const getMinEnergyFromXY = function(x, y, matrix) {
 }
 
 const getEnergyMatrix = function() {
-  // gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
   let energyMatrix = [...Array(baseCanvas.height)].map(e => Array(baseCanvas.width));
 
   for (let y = 0; y < baseCanvas.height; y++) {
@@ -252,8 +235,6 @@ const getSeam = function() {
 }
 
 const carve = function(data, seamSet) {
-  // const seamSet = getSeam();
-
   let newData = [];
   for (let i = 0; i < data.length; i += 4) {
     let x = (i / 4) % baseCanvas.width;
@@ -262,15 +243,7 @@ const carve = function(data, seamSet) {
       newData.push(...data.slice(i, i+4));
     }
   }
-
-
-  // canvas.width -= 1;
-  // imageData = context.getImageData(0, 0, canvas.width, canvas.height);
   return newData;
-  // for (let i = 0; i < data.length; i += 1) {
-  //   data[i] = newData[i];
-  // }
-  // context.putImageData(imageData, 0, 0);
 }
 
 const redraw = function() {
@@ -286,7 +259,6 @@ const redraw = function() {
 const carveAll = function(seamSet) {
   baseDataCopy = carve(baseDataCopy, seamSet);
   greyDataCopy = carve(greyDataCopy, seamSet);
-  // gradientDataCopy = carve(gradientDataCopy, seamSet);
   gradientDataCopy = new Array(baseDataCopy.length);
   redraw();
   getGradientMagnitude(gradientDataCopy);
