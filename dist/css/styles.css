@@ -1,8 +1,25 @@
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
 header {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: green;
+  padding: 20px;
+}
+
+h1 {
+  margin: 1px;
+}
+h3 {
+  margin: 1px;
 }
 
 .carve-conatainer {

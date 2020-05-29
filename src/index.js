@@ -91,6 +91,7 @@ const initializeCarve = function() {
   getGradientMagnitude(gradientImgData.data);
   gradientCtx.putImageData(gradientImgData, 0, 0);
   copyData(gradientImgData.data, gradientDataCopy);
+  // getHorizSeam();
 };
 
 const drawImage = function(image) {
@@ -194,6 +195,7 @@ const getEnergyMatrix = function() {
   return energyMatrix;
 }
 
+
 const getSeam = function() {
   let energyMatrix = getEnergyMatrix();
   let seamx = 0
@@ -216,7 +218,7 @@ const getSeam = function() {
 
     if (seamy === 0) { break; }
 
-    minVal = energyMatrix[seamy][seamx];
+    minVal = energyMatrix[seamy-1][seamx];
     let left = energyMatrix[seamy-1][seamx-1]
     let right = energyMatrix[seamy-1][seamx+1]
     
@@ -234,6 +236,69 @@ const getSeam = function() {
   return seamSet;
 }
 
+const getHorizSeam = function() {
+  let energyMatrix = getHorizEnergyMatrix();
+  let seamx = baseCanvas.width-1;
+  let seamy = 0;
+  let minVal = energyMatrix[seamy][seamx];
+
+  for (let i = 1; i < baseCanvas.height; i++) {
+    if (minVal > energyMatrix[i][seamx]) {
+      seamy = i;
+      minVal = energyMatrix[i][seamx];
+    }
+  }
+
+  let seamSet = new Set();
+
+  let baseData = baseImgData.data;
+  while (seamx >= 0) {
+    setPixelFromXY(seamx, seamy, baseData, {r: 255, g: 0, b: 0});
+    seamSet.add([seamy, seamx].toString())
+
+    if (seamx === 0) { break; }
+
+    minVal = energyMatrix[seamy][seamx-1];
+    let above = getCoords(seamx-1, seamy-1, energyMatrix)
+    let below = getCoords(seamx-1, seamy+1, energyMatrix)
+    
+    if (above !== undefined && above < minVal) {
+      seamy = seamy-1;
+      minVal = above;
+    } else if (below !== undefined && below < minVal) {
+      seamy = seamy+1;
+      minVal = below;
+    }
+    seamx--;
+  }
+  baseCtx.putImageData(baseImgData, 0, 0);
+
+  return seamSet;
+}
+
+const getHorizMinEnergy = function(x, y, matrix) {
+  const leftRow = [
+    getCoords(x-1, y-1, matrix),
+    getCoords(x-1, y, matrix),
+    getCoords(x-1, y+1, matrix)
+  ].filter((el) => el !== undefined);
+  return leftRow.length > 0 ? Math.min(...leftRow) : 0;
+}
+
+const getHorizEnergyMatrix = function() {
+  let energyMatrix = [...Array(baseCanvas.height)].map(e => Array(baseCanvas.width));
+
+  for (let x = 0; x < baseCanvas.width; x++) {
+    for (let y = 0; y < baseCanvas.height; y++) {
+      const currVal = getPixelFromXY(x, y, gradientDataCopy);
+      const minEnergy = getHorizMinEnergy(x, y, energyMatrix);
+      energyMatrix[y][x] = currVal + minEnergy;
+    }
+  }
+
+  return energyMatrix;
+}
+
 const carve = function(data, seamSet) {
   let newData = [];
   for (let i = 0; i < data.length; i += 4) {
@@ -241,13 +306,60 @@ const carve = function(data, seamSet) {
     let y = Math.floor((i / 4) / baseCanvas.width);
     if (!seamSet.has([y,x].toString())) {
       newData.push(...data.slice(i, i+4));
-    }
+    } 
   }
   return newData;
 }
 
+
+const getAllFromPixel = function(x ,y, data) {
+  let ind = (x + y * baseCanvas.width) * 4
+  return data.slice(ind, ind+4);
+}
+
+const transpose = function(data) {
+  let transposed = [...Array(baseCanvas.width)].map(e => Array(baseCanvas.height));
+  for (let y = 0; y < baseCanvas.height; y++) {
+    for (let x = 0; x < baseCanvas.width; x++) {
+      transposed[x][y] = getAllFromPixel(x, y, data)
+    }
+  }
+  return transposed;
+}
+
+
+const carveHoriz = function(data, seamSet) {
+  let t = transpose(data);
+  // console.log(t.length)
+  // console.log(t[0].length)
+  for (let y = 0; y < t.length; y++) {
+    for (let x = 0; x < t[0].length; x++) {
+      if (seamSet.has([x,y].toString())) {
+        t[y].splice(x,1);
+      }
+    }
+  }
+  // console.log(t.length)
+  // console.log(t[50].length)
+
+  let newData = [];
+  for (let x = 0; x < t[0].length; x++) {
+    for (let y = 0; y < t.length; y++) {
+      newData.push(...t[y][x])
+    }
+  }
+  // for (let i = 0; i < data.length; i += 4) {
+  //   let x = (i / 4) % baseCanvas.width;
+  //   let y = Math.floor((i / 4) / baseCanvas.width);
+  //   if (!seamSet.has([y,x].toString())) {
+  //     newData.push(...data.slice(i, i+4));
+  //   } 
+  // }
+  return newData;
+}
+
 const redraw = function() {
-  baseCanvas.width -= 1;
+  baseCanvas.width -= 1
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
   baseData = baseImgData.data;
   for (let i = 0; i < baseData.length; i += 1) {
@@ -261,6 +373,26 @@ const carveAll = function(seamSet) {
   greyDataCopy = carve(greyDataCopy, seamSet);
   gradientDataCopy = new Array(baseDataCopy.length);
   redraw();
+  getGradientMagnitude(gradientDataCopy);
+}
+
+const redrawHoriz = function() {
+  baseCanvas.height -= 1
+  baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+  baseData = baseImgData.data;
+  // console.log(baseData.length);
+  // console.log(baseDataCopy.length);
+  for (let i = 0; i < baseData.length; i += 1) {
+    baseData[i] = baseDataCopy[i];
+  }
+  baseCtx.putImageData(baseImgData, 0, 0);
+}
+
+const carveAllHoriz = function(seamSet) {
+  baseDataCopy = carveHoriz(baseDataCopy, seamSet);
+  greyDataCopy = carveHoriz(greyDataCopy, seamSet);
+  gradientDataCopy = new Array(baseDataCopy.length);
+  redrawHoriz();
   getGradientMagnitude(gradientDataCopy);
 }
 
@@ -298,7 +430,7 @@ function dragElement(elmnt) {
     document.onmousemove = null;
     startCarving = true;
     currVertPos = parseInt(topTri.style.left) - triOffset;
-    seamTimer();
+    seamTimerHoriz();
   }
 }
 
@@ -313,6 +445,20 @@ const carveTimer = function(seamSet) {
     carveAll(seamSet);
     maxRight = baseCanvas.width + triOffset;
     setTimeout(seamTimer, 100);
+  }
+}
+
+const seamTimerHoriz = function() {
+  if (baseCanvas.width <= currVertPos || !startCarving) return;
+  const seamSet = getHorizSeam();
+  setTimeout(carveTimerHoriz(seamSet), 100)
+}
+
+const carveTimerHoriz = function(seamSet) {
+  return () => {
+    carveAllHoriz(seamSet);
+    maxRight = baseCanvas.width + triOffset;
+    setTimeout(seamTimerHoriz, 100);
   }
 }
 
