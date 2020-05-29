@@ -20,6 +20,13 @@ let botTri;
 let maxLeft;
 let maxRight;
 let currVertPos;
+
+let rightTri;
+let leftTri;
+let maxTop;
+let maxBot;
+let currHorizPos;
+
 let triOffset = -9;
 let startCarving = false;
 
@@ -46,9 +53,13 @@ const init = function() {
 
   topTri = document.getElementById('top-triangle');
   botTri = document.getElementById('bottom-triangle');
+  leftTri = document.getElementById('left-triangle');
+  rightTri = document.getElementById('right-triangle');
 
   dragElement(topTri);
   dragElement(botTri);
+  dragHorizElement(rightTri);
+  dragHorizElement(leftTri);
   initializeCarve();
 }
 
@@ -57,6 +68,9 @@ const initializeCarve = function() {
   baseDataCopy = [];
   greyDataCopy = [];
   gradientDataCopy = [];
+  
+  baseContainer = document.getElementById('base');
+  baseContainer.style.height = image.height + "px";
 
   baseCanvas = document.getElementById('base-canvas');
   baseCtx = baseCanvas.getContext('2d');
@@ -79,11 +93,20 @@ const initializeCarve = function() {
   gradientImgData = gradientCtx.getImageData(0, 0, gradientCanvas.width, gradientCanvas.height);
 
   maxRight = (baseCanvas.width + triOffset);
+  currVertPos = maxRight - triOffset;
   maxLeft = triOffset;
   topTri.style.left = maxRight + "px";
   topTri.style.top =  "-15px";
   botTri.style.left = maxRight + "px";
   botTri.style.top = baseCanvas.height + "px";
+
+  maxBot = (baseCanvas.height + triOffset);
+  currHorizPos = maxBot - triOffset;
+  maxTop = triOffset;
+  leftTri.style.top = maxBot + "px";
+  leftTri.style.left =  "-15px";
+  rightTri.style.top = maxBot + "px";
+  rightTri.style.left = baseCanvas.width + "px";
 
   copyData(baseImgData.data, baseDataCopy);
   
@@ -430,35 +453,87 @@ function dragElement(elmnt) {
     document.onmousemove = null;
     startCarving = true;
     currVertPos = parseInt(topTri.style.left) - triOffset;
-    seamTimerHoriz();
+    seamTimer();
+  }
+}
+
+function dragHorizElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  elmnt.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    startCarving = false;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    let newY = elmnt.offsetTop - pos2;
+    if (newY <= maxBot && newY >= maxTop) {
+      leftTri.style.top = newY + "px";
+      rightTri.style.top = newY + "px";
+    }
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+    startCarving = true;
+    currHorizPos = parseInt(leftTri.style.top) - triOffset;
+    seamTimer();
   }
 }
 
 const seamTimer = function() {
-  if (baseCanvas.width <= currVertPos || !startCarving) return;
-  const seamSet = getSeam();
-  setTimeout(carveTimer(seamSet), 100)
+  if (!startCarving) return;
+  if (baseCanvas.width <= currVertPos && baseCanvas.height > currHorizPos) {
+    seamTimerHoriz();
+  } else if (baseCanvas.width > currVertPos) {
+    const seamSet = getSeam();
+    setTimeout(carveTimer(seamSet), 100)
+  } else {
+    return;
+  }
 }
 
 const carveTimer = function(seamSet) {
   return () => {
     carveAll(seamSet);
     maxRight = baseCanvas.width + triOffset;
-    setTimeout(seamTimer, 100);
+    rightTri.style.left = (maxRight-triOffset) + "px";
+    setTimeout(seamTimerHoriz, 100);
   }
 }
 
 const seamTimerHoriz = function() {
-  if (baseCanvas.width <= currVertPos || !startCarving) return;
-  const seamSet = getHorizSeam();
-  setTimeout(carveTimerHoriz(seamSet), 100)
+  if (!startCarving) return;
+  if (baseCanvas.height <= currHorizPos && baseCanvas.width > currVertPos) {
+    seamTimer();
+  } else if (baseCanvas.height > currHorizPos) {
+    const seamSet = getHorizSeam();
+    setTimeout(carveTimerHoriz(seamSet), 100)
+  } else {
+    return;
+  }
 }
 
 const carveTimerHoriz = function(seamSet) {
   return () => {
     carveAllHoriz(seamSet);
-    maxRight = baseCanvas.width + triOffset;
-    setTimeout(seamTimerHoriz, 100);
+    maxBot = baseCanvas.height + triOffset;
+    botTri.style.top = (maxBot-triOffset) + "px";
+    setTimeout(seamTimer, 100);
   }
 }
 
