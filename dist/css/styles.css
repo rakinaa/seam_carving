@@ -33,6 +33,27 @@ h3 {
   margin-bottom: 20px;
 }
 
+.instructions-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  margin: auto;
+  margin-top: 30px;
+  width: 80%;
+}
+
+.instructions {
+  width: 300px;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
 .button-container {
   display: flex;
   flex-direction: row;

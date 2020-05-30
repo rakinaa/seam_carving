@@ -17,15 +17,12 @@
       <i class="fab fa-angellist"></i>
     </div>
   </header>
-  <p>
+  <p class="description">
     Seam carving is a content aware image resizing algorithm which aims to preserve high energy portions of the image. 
     Unlike cropping, which linearly removes outer portions of the image, 
     seam carving seeks to remove the lowest energy path. To determine
     the path with the lowest energy, the image's gradient must be calculated which reveals the energy of each pixel.
     Afterwards the lowest energy path is calculated through dynamic programming and removed from the image.
-  </p>
-  <p>
-    drag the triangles to start carving. Red lines represent the lowest energy seams.
   </p>
   <div class="button-container">
     <div class="btn" id="sample1">
@@ -40,6 +37,9 @@
   </div>
   <div class="images-container">
     <div class="carve-conatainer">
+      <p class="instructions">
+        drag the triangles to start carving. Red lines represent the lowest energy seams.
+      </p>
       <div id="base" class="base-container">
         <div id="top-triangle"></div>
         <div id="left-triangle"></div>
