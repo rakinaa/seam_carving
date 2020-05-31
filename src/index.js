@@ -114,7 +114,6 @@ const initializeCarve = function() {
   getGradientMagnitude(gradientImgData.data);
   gradientCtx.putImageData(gradientImgData, 0, 0);
   copyData(gradientImgData.data, gradientDataCopy);
-  // getHorizSeam();
 };
 
 const drawImage = function(image) {
@@ -353,8 +352,6 @@ const transpose = function(data) {
 
 const carveHoriz = function(data, seamSet) {
   let t = transpose(data);
-  // console.log(t.length)
-  // console.log(t[0].length)
   for (let y = 0; y < t.length; y++) {
     for (let x = 0; x < t[0].length; x++) {
       if (seamSet.has([x,y].toString())) {
@@ -362,8 +359,6 @@ const carveHoriz = function(data, seamSet) {
       }
     }
   }
-  // console.log(t.length)
-  // console.log(t[50].length)
 
   let newData = [];
   for (let x = 0; x < t[0].length; x++) {
@@ -371,13 +366,6 @@ const carveHoriz = function(data, seamSet) {
       newData.push(...t[y][x])
     }
   }
-  // for (let i = 0; i < data.length; i += 4) {
-  //   let x = (i / 4) % baseCanvas.width;
-  //   let y = Math.floor((i / 4) / baseCanvas.width);
-  //   if (!seamSet.has([y,x].toString())) {
-  //     newData.push(...data.slice(i, i+4));
-  //   } 
-  // }
   return newData;
 }
 
@@ -403,8 +391,6 @@ const redrawHoriz = function() {
   baseCanvas.height -= 1
   baseImgData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
   baseData = baseImgData.data;
-  // console.log(baseData.length);
-  // console.log(baseDataCopy.length);
   for (let i = 0; i < baseData.length; i += 1) {
     baseData[i] = baseDataCopy[i];
   }
@@ -440,7 +426,6 @@ function dragElement(elmnt) {
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     let newX = elmnt.offsetLeft - pos1;
     if (newX <= maxRight && newX >= maxLeft) {
       topTri.style.left = newX + "px";
@@ -478,7 +463,6 @@ function dragHorizElement(elmnt) {
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     let newY = elmnt.offsetTop - pos2;
     if (newY <= maxBot && newY >= maxTop) {
       leftTri.style.top = newY + "px";
