@@ -24,23 +24,12 @@
     the path with the lowest energy, the image's gradient must be calculated which reveals the energy of each pixel.
     Afterwards the lowest energy path is calculated through dynamic programming and removed from the image.
   </p>
-  <div class="button-container">
-    <div class="btn" id="sample1">
-        <img class="sample-button" src="img/Broadway_tower_edit.jpg">
-    </div>
-    <div class="btn" id="sample2">
-        <img class="sample-button" src="img/dolphin.png">
-    </div>
-    <div class="btn" id="sample3">
-        <img class="sample-button" src="img/pietro-de-grandi.jpg">
-    </div>
-  </div>
   <div class="images-container">
     <div class="carve-conatainer">
       <div class="instructions-container">
         <div class="top-triangle"></div>
         <p class="instructions">
-          Drag a triangle &nbsp; &nbsp; to start carving. <span>Red lines</span> represent the lowest energy seams.
+          Drag an arrow &nbsp; &nbsp; to start carving. <span>Red lines</span> represent the lowest energy seams.
         </p>
       </div>
       <div id="base" class="base-container">
@@ -49,6 +38,20 @@
         <canvas id="base-canvas"></canvas>
         <div id="right-triangle"></div>
         <div id="bottom-triangle"></div>
+      </div>
+    </div>
+    <div class="sample-container">
+      <h3>Sample Images</h3>
+      <div class="button-container">
+        <div class="btn" id="sample1">
+            <img class="sample-button" src="img/Broadway_tower_edit.jpg">
+        </div>
+        <div class="btn" id="sample2">
+            <img class="sample-button" src="img/dolphin.png">
+        </div>
+        <div class="btn" id="sample3">
+            <img class="sample-button" src="img/pietro-de-grandi.jpg">
+        </div>
       </div>
     </div>
     <div class="modified-container">
