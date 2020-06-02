@@ -15,6 +15,7 @@ header {
   height: 200px;
   background-image: url("../img/background.png");
   background-size: cover;
+  color: white;
 }
 
 h1 {
