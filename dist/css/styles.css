@@ -18,9 +18,18 @@ header {
   color: white;
 }
 
+.head-title {
+  font-size: 60px;
+}
+
+.head-name {
+  font-size: 30px;
+}
+
 header i {
-  font-size: 25px;
+  font-size: 30px;
   color: white;
+  transition: color .5s;
 }
 
 header a {
@@ -28,12 +37,8 @@ header a {
   text-decoration: none;
 }
 
-.head-title {
-  font-size: 60px;
-}
-
-.head-name {
-  font-size: 30px;
+header i:hover {
+  color: green;
 }
 
 .icon-container {
