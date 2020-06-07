@@ -151,13 +151,11 @@ const toggleCarve = function() {
   currHorizPos = parseInt(leftTri.style.top) - triOffset;
 
   if (vertCarve) {
-    toggleButton.innerHTML = "Carve Horizontally"
     leftTri.style.display = "none";
     rightTri.style.display = "none";
     topTri.style.display = "block";
     botTri.style.display = "block";
   } else {
-    toggleButton.innerHTML = "Carve Vertically"
     leftTri.style.display = "block";
     rightTri.style.display = "block";
     topTri.style.display = "none";
