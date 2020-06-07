@@ -27,14 +27,22 @@ let maxTop;
 let maxBot;
 let currHorizPos;
 
+let toggleButton;
+
 let triOffset = -9;
 let startCarving = false;
+let vertCarve = true;
 
 const init = function() {
   image = document.getElementById('source-image');
   let sample1 = document.getElementById('sample1');
   let sample2 = document.getElementById('sample2');
   let sample3 = document.getElementById('sample3');
+
+  sample2.classList.add("blue-border")
+
+  toggleButton = document.getElementById('toggle-button');
+  toggleButton.onclick = toggleCarve;
 
   const handleClick = function(imgPath) {
     return function() {
@@ -55,6 +63,9 @@ const init = function() {
   botTri = document.getElementById('bottom-triangle');
   leftTri = document.getElementById('left-triangle');
   rightTri = document.getElementById('right-triangle');
+
+  leftTri.style.display = "none";
+  rightTri.style.display = "none";
 
   dragElement(topTri);
   dragElement(botTri);
@@ -123,6 +134,34 @@ const drawImage = function(image) {
 const copyData = function(data, copy) {
   for (let i = 0; i < data.length; i += 1) {
     copy.push(data[i])
+  }
+}
+
+const toggleCarve = function() {
+  maxRight = (baseCanvas.width + triOffset);
+  maxBot = (baseCanvas.height + triOffset);
+  vertCarve = !vertCarve;
+  startCarving = false;
+
+  leftTri.style.top = maxBot + "px";
+  rightTri.style.top = maxBot + "px";
+  topTri.style.left = maxRight + "px";
+  botTri.style.left = maxRight + "px";
+  currVertPos = parseInt(topTri.style.left) - triOffset;
+  currHorizPos = parseInt(leftTri.style.top) - triOffset;
+
+  if (vertCarve) {
+    toggleButton.innerHTML = "Carve Horizontally"
+    leftTri.style.display = "none";
+    rightTri.style.display = "none";
+    topTri.style.display = "block";
+    botTri.style.display = "block";
+  } else {
+    toggleButton.innerHTML = "Carve Vertically"
+    leftTri.style.display = "block";
+    rightTri.style.display = "block";
+    topTri.style.display = "none";
+    botTri.style.display = "none";
   }
 }
 
