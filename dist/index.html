@@ -1,84 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="https://kit.fontawesome.com/003cbdf316.js" crossorigin="anonymous"></script>
-  <title>Seam carving</title>
-</head>
-<body>
-  <header>
-    <h1 class="head-title">Seam Carving</h1>
-    <h3 class="head-name">Rakin Rouf</h3>
-    <div class="icon-container">
-      <a href="https://github.com/rakinaa">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/rakin-rouf-6607b21a4/">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="https://angel.co/u/rakin-rouf">
-        <i class="fab fa-angellist"></i>
-      </a>
-    </div>
-  </header>
-  <div class="about-section">
-    <h3>About</h3>
-    <p class="description">
-      Seam carving is a content aware image resizing algorithm which aims to preserve high energy portions of the image. 
-      Unlike cropping, which linearly removes outer portions of the image, 
-      seam carving seeks to remove the lowest energy path. To determine
-      the path with the lowest energy, the image's gradient must be calculated which reveals the energy of each pixel.
-      Afterwards the lowest energy path is calculated through dynamic programming and removed from the image.
-    </p>
-  </div>
-  <div class="images-container">
-    <div class="carve-conatainer">
-      <div class="instructions-container">
-        <div class="top-triangle"></div>
-        <p class="instructions">
-          Drag an arrow &nbsp; &nbsp; to start carving. <span>Red lines</span> represent the lowest energy seams.
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script
+      src="https://kit.fontawesome.com/003cbdf316.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Seam carving</title>
+  </head>
+  <body>
+    <header>
+      <h1 class="head-title">Seam Carving</h1>
+      <h3 class="head-name">Rakin Rouf</h3>
+      <div class="icon-container">
+        <a href="">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="">
+          <i class="fab fa-angellist"></i>
+        </a>
+      </div>
+    </header>
+    <div class="about-section">
+      <h3>About</h3>
+      <div class="about-container">
+        <p class="description">
+          Seam carving is a content aware image resizing algorithm which aims to
+          preserve high energy portions of the image. Unlike cropping, which
+          linearly removes outer portions of the image, seam carving seeks to
+          remove the lowest energy path. To determine the path with the lowest
+          energy, the image's gradient must be calculated which reveals the
+          energy of each pixel. Afterwards the lowest energy path is calculated
+          through dynamic programming and removed from the image.
         </p>
+        <img src="img/process.png" alt="process" />
       </div>
-      <div id="toggle-button">Switch Orientation</div>
-      <div id="base" class="base-container">
-        <div id="top-triangle"></div>
-        <div id="left-triangle"></div>
-        <canvas id="base-canvas"></canvas>
-        <div id="right-triangle"></div>
-        <div id="bottom-triangle"></div>
-      </div>
-    </div>
-    <div class="sample-container">
-      <h3>Sample Images</h3>
-      <div class="button-container">
-        <div class="btn" id="sample1">
-            <img class="sample-button" src="img/Broadway_tower_edit.jpg">
+      <div class="examples-container">
+        <div class="example">
+          <h3>Original</h3>
+          <img src="img/Broadway_tower_edit.jpg" alt="original" />
         </div>
-        <div class="btn" id="sample2">
-            <img class="sample-button" src="img/dolphin.png">
+        <div class="example">
+          <h3>Cropping</h3>
+          <img src="img/cropping.png" alt="cropping" />
         </div>
-        <div class="btn" id="sample3">
-            <img class="sample-button" src="img/pietro-de-grandi.jpg">
+        <div class="example">
+          <h3>Scaling</h3>
+          <img src="img/scaling.png" alt="scaling" />
+        </div>
+        <div class="example">
+          <h3>Seam Carving</h3>
+          <img src="img/carving.png" alt="carving" />
         </div>
       </div>
     </div>
-    <div class="modified-container">
-      <div class="img-container">
-        <h3 class="image-header">Original</h3>
-        <img id="source-image" src="img/dolphin.png">
+    <div class="images-container">
+      <div class="carve-conatainer">
+        <div class="instructions-container">
+          <div class="top-triangle"></div>
+          <p class="instructions">
+            Drag an arrow &nbsp; &nbsp; to start carving.
+            <span>Red lines</span> represent the lowest energy seams.
+          </p>
+        </div>
+        <div id="toggle-button">Switch Orientation</div>
+        <div id="base" class="base-container">
+          <div id="top-triangle"></div>
+          <div id="left-triangle"></div>
+          <canvas id="base-canvas"></canvas>
+          <div id="right-triangle"></div>
+          <div id="bottom-triangle"></div>
+        </div>
       </div>
-      <div class="img-container">
-        <h3 class="image-header">Grey Scale</h3>
-        <canvas id="grey-canvas"></canvas>
+      <div class="sample-container">
+        <h3>Sample Images</h3>
+        <div class="button-container">
+          <div class="btn" id="sample1">
+            <img class="sample-button" src="img/Broadway_tower_edit.jpg" />
+          </div>
+          <div class="btn" id="sample2">
+            <img class="sample-button" src="img/dolphin.png" />
+          </div>
+          <div class="btn" id="sample3">
+            <img class="sample-button" src="img/pietro-de-grandi.jpg" />
+          </div>
+        </div>
       </div>
-      <div class="img-container">
-        <h3 class="image-header">Image Gradient</h3>
-        <canvas id="gradient-canvas"></canvas>
+      <div class="modified-container">
+        <div class="img-container">
+          <h3 class="image-header">Original</h3>
+          <img id="source-image" src="img/dolphin.png" />
+        </div>
+        <div class="img-container">
+          <h3 class="image-header">Grey Scale</h3>
+          <canvas id="grey-canvas"></canvas>
+        </div>
+        <div class="img-container">
+          <h3 class="image-header">Image Gradient</h3>
+          <canvas id="gradient-canvas"></canvas>
+        </div>
       </div>
     </div>
-  </div>
-  <script type="application/javascript" src="./main.js"></script>
-</body>
+    <script type="application/javascript" src="./main.js"></script>
+  </body>
 </html>
