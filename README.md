@@ -11,3 +11,13 @@ through dynamic programming and removed from the image.
 To convert an image to greyscale, all RGB values of a pixel must be averaged out to be the same value
 
 ![greyscale](dist/img/rm_grey.png)
+
+## Calculating image gradient
+To calculate the image gradient of a pixel the difference between the immediate surrounding pixels is put into a distance formula to calculate that pixels contrast
+
+![gradient](dist/img/rm_gradient.png)
+
+## Carving a seam
+After the image gradient is calculated, the lowest energy path down the image is calculated through dynamic programming to reduce the time complexity. Afterwards, the image is redrawn.
+
+![carved](dist/img/rm_shrunk.png)
