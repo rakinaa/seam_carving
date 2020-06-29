@@ -6,3 +6,8 @@ remove the lowest energy path. To determine the path with the lowest
 energy, the image's gradient must be calculated which reveals the
 energy of each pixel. Afterwards the lowest energy path is calculated
 through dynamic programming and removed from the image.
+
+## Conversion to greyscale
+To convert an image to greyscale, all RGB values of a pixel must be averaged out to be the same value
+
+![greyscale](dist/img/rm_grey.png)
