@@ -27,6 +27,20 @@ for (let i = 0; i < baseData.length; i += 4) {
 ## Calculating image gradient
 To calculate the image gradient of a pixel the difference between the immediate surrounding pixels is put into a distance formula to calculate that pixels contrast
 
+The following code get's the value of the surrouding pixels of each pixel greyscale data, then applies the gradient magnitude formula and writes it to a new image.
+```js
+for (let x = 0; x < baseCanvas.width; x++) {
+  for (let y = 0; y < baseCanvas.height; y++) {
+    let pixels = getSurroundingPixels(x, y);
+
+    let diffx = pixels.left - pixels.right;
+    let diffy = pixels.up - pixels.down;
+    let magnitude = Math.sqrt(diffx * diffx + diffy * diffy);
+    let normalized = Math.floor((magnitude * 255) / 361);
+    setPixelFromXY(x, y, gradData, normalized);
+  }
+}
+```
 ![gradient](dist/img/rm_gradient.png)
 
 ## Carving a seam
