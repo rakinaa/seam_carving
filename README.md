@@ -46,4 +46,15 @@ for (let x = 0; x < baseCanvas.width; x++) {
 ## Carving a seam
 After the image gradient is calculated, the lowest energy path down the image is calculated through dynamic programming to reduce the time complexity. Afterwards, the image is redrawn.
 
+The following code calculates the min energy paths from gradient data.
+```js
+for (let y = 0; y < baseCanvas.height; y++) {
+  for (let x = 0; x < baseCanvas.width; x++) {
+    const currVal = getPixelFromXY(x, y, gradientDataCopy);
+    const minEnergy = getMinEnergyFromXY(x, y, energyMatrix);
+    energyMatrix[y][x] = currVal + minEnergy;
+  }
+}
+```
+
 ![carved](dist/img/rm_shrunk.png)
