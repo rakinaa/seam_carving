@@ -1,4 +1,7 @@
 # Seam Carving
+
+[Seam Carving live](https://rakinaa.github.io/seam_carving/dist/)
+
 Seam carving is a content aware image resizing algorithm which aims to
 preserve high energy portions of the image. Unlike cropping, which
 linearly removes outer portions of the image, seam carving seeks to
